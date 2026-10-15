@@ -9,18 +9,64 @@ import axios, { AxiosError } from "axios";
 import { Vibration } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+export interface IGeoCoordinates {
+  type: "point";
+  coordinates: [number, number];
+}
 
+export interface IUserLocation {
+  city?: string;
+  country?: string;
+  district?: string;
+  isoCountryCode?: string;
+  name?: string;
+  postalCode?: string;
+  region?: string;
+  street?: string;
+  streetNumber?: string;
+  timezone?: string;
+  coordinates?: IGeoCoordinates;
+}
+
+export interface INotificationPreferences {
+  push: boolean;
+  email: boolean;
+  sms: boolean;
+}
+
+export interface IPrivacyPreferences {
+  profilePublic: boolean;
+  showAttendance: boolean;
+  allowMessages: boolean;
+}
+
+export interface IUserPreferences {
+  language: string;
+  theme: "light" | "dark";
+  notifications: INotificationPreferences;
+  privacy: IPrivacyPreferences;
+}
+// Updated User Interface matching your schema definition
 export interface User {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
-  profilePicture?: string;
-  coverPhoto?: string;
+  profilePicture: string;
+  coverPhoto: string;
+  bio: string;
+  gender: "male" | "female" | "other";
+  userType: "attendee" | "organizer" | "admin";
+  location?: IUserLocation;
+  preferences?: IUserPreferences;
+  phone?: string;
   slug?: string;
-  userType: string;
-  bio?: string;
-  gender: string;
+  interest: string[];
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  totalEventsAttended?: number;
+  averageRatings?: number;
+  totalReviews?: number;
 }
 
 interface AuthCredentials {
@@ -43,6 +89,7 @@ interface AppContextType {
   login: (
     credentials: Omit<AuthCredentials, "firstName" | "lastName">,
   ) => Promise<void>;
+  slugExist: (slug: string) => Promise<boolean>;
   addLocation: (location: LocationData) => Promise<void>;
   VerifyEmail: (otp: string) => Promise<void>;
   isLoginEmailError: boolean;
@@ -84,7 +131,7 @@ interface ApiErrorResponse {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const api = axios.create({ baseURL: "http://192.168.18.2:5000/api" });
+const api = axios.create({ baseURL: "http://172.20.10.2:5000/api" });
 
 // Constant storage key to prevent mismatches
 const TOKEN_KEY = "@token";
@@ -255,7 +302,25 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setEmailVerificationLoading(false);
     }
   };
-  
+  // Slug Exist
+  const slugExist = async (slug: string) => {
+    try {
+      const { data } = await api.post("/auth/slugExist", { slug });
+      if (data.success) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      const err = error as AxiosError<ApiErrorResponse>;
+      if (err.response?.data) {
+        console.log(
+          "An error occurred while verifying",
+          err.response.data.message,
+        );
+      }
+      return false;
+    }
+  };
   // Get User Profile
   const getUserProfile = async (currentToken: string) => {
     try {
@@ -279,7 +344,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       await AsyncStorage.removeItem(TOKEN_KEY);
       setToken(null);
       setUser(null);
-      router.replace("/")
+      router.replace("/");
     } catch (error) {
       console.log("Logout cleanup error:", error);
     }
@@ -304,7 +369,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   // Lifecycle initialization
   useEffect(() => {
     loadStoredToken();
-  }, []);
+  }, [token]);
 
   return (
     <AppContext.Provider
@@ -320,6 +385,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         resendEmailVerificationOtp,
         setUser,
         token,
+        slugExist,
         setToken,
         signUp,
         setShowSuccess,
@@ -336,6 +402,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         isSignUpPasswordError,
         setIsSignUpPasswordError,
         logout,
+        api,
       }}
     >
       {children}

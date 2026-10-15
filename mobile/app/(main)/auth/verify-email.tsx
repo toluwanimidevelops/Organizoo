@@ -93,7 +93,7 @@ const VerifyEmail = () => {
         visible={showSuccess}
         onContinue={() => {
           setShowSuccess(false);
-          router.replace("/(main)/auth/onboarding"); // or wherever onboarding leads next
+          router.replace("/(main)/(tabs)/(home)/home"); // or wherever onboarding leads next
         }}
       />
       <SafeAreaView className="flex-1 bg-[#f4f7fd] p-5">

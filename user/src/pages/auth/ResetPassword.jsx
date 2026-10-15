@@ -10,6 +10,7 @@ const ResetPassword = () => {
   const [count, setCount] = useState(1);
   const inputRefs = useRef([]);
   const [sec, setSec] = useState(60);
+  
   useEffect(() => {
     if (count !== 2 || sec === 0) return;
 

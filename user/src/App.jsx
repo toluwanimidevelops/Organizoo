@@ -17,7 +17,7 @@ const App = () => {
   let router = useLocation();
   const { mode } = useAppContext();
   useEffect(() => {
-    setTimeout(() => setLoader(false), 1500);
+    setTimeout(() => setLoader(false), 5000);
   }, []);
   if (loader) {
     return <MainLoader />;

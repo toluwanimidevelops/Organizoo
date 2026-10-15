@@ -3,7 +3,7 @@ import event1 from "./e1.jpeg";
 import event2 from "./e2.jpeg";
 import event3 from "./e3.jpeg";
 import event4 from "./e4.jpeg";
-import dashboardImage from "./das.png";
+import dashboardImage from "./das2.png";
 
 export let images = {
   bg: hmBg,

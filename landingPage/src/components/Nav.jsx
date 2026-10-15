@@ -4,22 +4,15 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed z-99 w-full px-3 flex justify-center items-center py-5">
-      <nav className=" bg-[#110111]/90 flex items-center shadow-md border-2  max-md:w-full max-w-full w-7xl mx-auto justify-between border-white/10 px-6 py-4 rounded-full text-white text-sm">
+    <div className="fixed z-99 w-full  px-6 pt-9 flex justify-center items-center py-5">
+      <nav className=" bg-midnight/50 backdrop-blur-3xl flex items-center shadow-md border-2  max-md:w-full max-w-full w-7xl mx-auto justify-between border-white/10 p-4   min-h-15 rounded-full text-white text-sm">
         {/* Logo */}
-        <a href="https://prebuiltui.com" className="w-51">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="4.706" cy="16" r="4.706" fill="#D9D9D9" />
-            <circle cx="16.001" cy="4.706" r="4.706" fill="#D9D9D9" />
-            <circle cx="16.001" cy="27.294" r="4.706" fill="#D9D9D9" />
-            <circle cx="27.294" cy="16" r="4.706" fill="#D9D9D9" />
-          </svg>
+        <a href="/" className="w-50">
+          <img
+            src="/CONNECTIFY.png"
+            alt="Logo"
+            className="w-full h-full  object-contain"
+          />
         </a>
 
         {/* Desktop Links */}
@@ -36,11 +29,9 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Buttons */}
-        <div className="hidden ml-14 w-51 md:flex items-center gap-4">
-          <button className="border border-slate-600 hover:bg-slate-800 px-4 py-2 rounded-full text-sm font-medium transition">
-            Contact
-          </button>
-          <button className="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-black px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-100 transition duration-300">
+        <div className="hidden ml-14 w-50   md:flex justify-end gap-4">
+        
+          <button className="bg-white font-secondary  text-black px-6 cursor-pointer py-3 uppercase rounded-full text-xs font-medium hover:bg-slate-100 transition duration-300">
             Get Started
           </button>
         </div>
@@ -78,7 +69,7 @@ export default function Navbar() {
           <button className="border border-slate-600 hover:bg-slate-800 px-4 py-2 rounded-full text-sm font-medium transition">
             Contact
           </button>
-          <button className="bg-white hover:shadow-[0px_0px_30px_14px] shadow-[0px_0px_30px_7px] hover:shadow-white/50 shadow-white/50 text-black px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-100 transition duration-300">
+          <button className="bg-white  text-black px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-100 transition duration-300">
             Get Started
           </button>
         </div>

@@ -112,7 +112,7 @@ const EmailSuccessModal = ({
   visible,
   onContinue,
   title = "Email Verified!",
-  subtitle = "You're all set. Your account is ready to explore Gather.",
+  subtitle = "You're all set. Your account is ready to explore Connectify.",
 }: EmailSuccessModalProps) => {
   const scale = useRef(new Animated.Value(0)).current;
   const badgeScale = useRef(new Animated.Value(0)).current;

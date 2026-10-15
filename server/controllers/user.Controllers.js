@@ -20,9 +20,7 @@ export const SignUp = async (req, res) => {
       });
     }
 
-    // Check if user already exists
     const userExists = await User.findOne({ email });
-
     if (userExists) {
       return res.status(400).json({
         success: false,
@@ -31,14 +29,42 @@ export const SignUp = async (req, res) => {
       });
     }
 
-    // Generate OTP
     const otp = otpGenerator();
-
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Create user
-    const user = new User({
+    // 1. Send the OTP first. If this fails, nothing is created.
+    let info;
+    try {
+      info = await transporter.sendMail({
+        from: process.env.SENDER_EMAIL,
+        to: email,
+        subject: "Verify Your Account - OTP Code",
+        text: `${firstName}, your verification code is: ${otp}`,
+        html: `
+          <h3>Welcome ${firstName}!</h3>
+          <p>Your verification code is: <b>${otp}</b></p>
+        `,
+      });
+    } catch (mailErr) {
+      console.error("OTP email failed:", mailErr);
+      return res.status(502).json({
+        success: false,
+        type: "email",
+        message: "Could not send verification email. Please try again.",
+      });
+    }
+
+    // Some transports resolve even when the address was rejected
+    if (!info.accepted || info.accepted.length === 0) {
+      return res.status(400).json({
+        success: false,
+        type: "email",
+        message: "Could not deliver to this email address.",
+      });
+    }
+
+    // 2. OTP is out, now create the user
+    const user = await User.create({
       firstName,
       lastName,
       password: hashedPassword,
@@ -47,47 +73,41 @@ export const SignUp = async (req, res) => {
       emailVerificationOtpExpiresAt: Date.now() + 10 * 60 * 1000,
     });
 
-    await user.save();
+    // 3. Welcome email is non-critical: don't fail signup over it
+    transporter
+      .sendMail({
+        from: process.env.SENDER_EMAIL,
+        to: email,
+        subject: "Welcome to the App",
+        text: `Welcome ${firstName}, thank you for choosing App`,
+      })
+      .catch((e) => console.error("Welcome email failed:", e));
 
-    // Welcome email
-    const mailOption1 = {
-      from: process.env.SENDER_EMAIL,
-      to: email,
-      subject: "Welcome to the App",
-      text: `Welcome ${firstName}, thank you for choosing App`,
-    };
-
-    // OTP email
-    const mailOption2 = {
-      from: process.env.SENDER_EMAIL,
-      to: email,
-      subject: "Verify Your Account - OTP Code",
-      text: `${firstName}, your verification code is: ${otp}`,
-      html: `
-        <h3>Welcome ${firstName}!</h3>
-        <p>Your verification code is: <b>${otp}</b></p>
-      `,
-    };
-
-    await transporter.sendMail(mailOption1);
-    await transporter.sendMail(mailOption2);
-
-    // Generate JWT
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "User created successfully",
       token: jwtToken,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
-    res.status(500).json({
+    // Duplicate key from a race between two simultaneous signups
+    if (err.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        type: "email",
+        message: "User already exists",
+      });
+    }
+
+    return res.status(500).json({
       success: false,
-      message: err.message,
+      type: "server",
+      message: "Something went wrong",
     });
   }
 };
@@ -388,8 +408,13 @@ export const CompleteProfile = async (req, res) => {
       gender,
       dateOfBirth,
       settings,
+      country,
+      city,
+      streetAddress,
+      postalCode,
+      stateRegion,
     } = req.body;
-    if (!firstName || !lastName || !dateOfBirth || !gender) {
+    if (!firstName || !lastName || !gender) {
       return res
         .status(400)
         .json({ success: false, message: "Please fill up the required field" });
@@ -404,21 +429,30 @@ export const CompleteProfile = async (req, res) => {
         bio,
         gender,
         dateOfBirth,
-        preferences: {
-          language: settings.language,
-          theme: setting.theme,
-          notifications: settings.notifications,
-          privacy: settings.privacy,
+        // preferences: {
+        //   language: settings.language,
+        //   theme: setting.theme,
+        //   notifications: settings.notifications,
+        //   privacy: settings.privacy,
+        // },
+        location: {
+          city,
+          country,
+          streetAddress,
+          postalCode,
+          region: stateRegion,
         },
       },
       { new: true },
     );
     if (!user) {
-      return res.status(401).json("User not found");
+      return res
+        .status(401)
+        .json({ success: false, message: "User not found" });
     }
     return res
       .status(201)
-      .json({ success: true, message: "User updated successfully" });
+      .json({ success: true, message: "User updated successfully", user });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -557,6 +591,20 @@ export const addLocation = async (req, res) => {
       success: true,
       user,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const checkIfSlugisAvailable = async (req, res) => {
+  try {
+    const { slug } = req.body;
+    const findSlug = await User.findOne({ slug: slug });
+    if (findSlug) return res.status(400).json({ success: false }); // taken
+    return res.status(200).json({ success: true }); // available
   } catch (error) {
     console.log(error);
     res.status(500).json({

@@ -3,8 +3,16 @@ let userSchema = new mongoose.Schema(
   {
     // Authentication
     email: { type: String, required: true, unique: true },
-    password: { type: String },
-    slug: { type: String },
+    password: {
+      type: String,
+      required: function () {
+        return !this.googleId && !this.facebookId && !this.appleId;
+      },
+    },
+    googleId: { type: String, unique: true, sparse: true },
+    facebookId: { type: String, unique: true, sparse: true },
+    appleId: { type: String, unique: true, sparse: true },
+    slug: { type: String, unique: true },
     phone: { type: String },
     emailVerified: { type: Boolean, default: false },
     phoneVerified: { type: Boolean, default: false },
@@ -30,6 +38,7 @@ let userSchema = new mongoose.Schema(
     },
 
     // Account Type
+
     userType: {
       type: String,
       enum: ["attendee", "organizer", "admin"],
@@ -46,6 +55,7 @@ let userSchema = new mongoose.Schema(
       region: { type: String },
       street: { type: String },
       streetNumber: { type: String },
+      streetAddress: { type: String },
       timezone: { type: String },
       coordinates: {
         type: { type: String, enum: ["point"], default: "point" },
@@ -71,6 +81,8 @@ let userSchema = new mongoose.Schema(
         allowMessages: { type: Boolean, default: true },
       },
     },
+    // Interest
+
     // Verification & Moderation
     emailVerificationOtp: { type: String },
     emailVerificationOtpExpiresAt: { type: String },

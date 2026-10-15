@@ -1,18 +1,17 @@
 import React from "react";
 import Navbar from "../components/Nav";
 import Header from "../components/Home/Header";
-import Feautures from "../components/Home/Feautures";
-import HowItWorks from "../components/Home/HowItWorks";
-import Pricing from "../components/Home/Pricing";
+import Features from "../components/Home/Features";
+import HowItWorks from "../components/Home/HowitWorks";
+
 
 const Home = () => {
   return (
     <div className="w-full overflow-y-hidden">
-      <Navbar />
-      <Header />                  
-      <Feautures />
-      <HowItWorks />  
-      <Pricing/>
+      {/* <Navbar /> */}
+      <Header />
+      <HowItWorks />
+      <Features />
     </div>
   );
 };

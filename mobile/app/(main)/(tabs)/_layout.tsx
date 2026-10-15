@@ -67,6 +67,11 @@ const AppLayout = () => {
         tabBarActiveTintColor: "#100a30",
         tabBarStyle: {
           width: "100%",
+          height: 100,
+          paddingTop: 10,
+        },
+        tabBarLabelStyle: {
+          fontWeight: "500",
         },
         headerShown: false,
       }}
@@ -79,7 +84,7 @@ const AppLayout = () => {
             <Ionicons
               name={focused ? "home" : "home-outline"}
               color={color}
-              size={22}
+              size={24}
             />
           ),
         }}
@@ -92,12 +97,24 @@ const AppLayout = () => {
             <Ionicons
               name={focused ? "map" : "map-outline"}
               color={color}
-              size={22}
+              size={24}
             />
           ),
         }}
       />
-
+      <Tabs.Screen
+        name="(friends)"
+        options={{
+          tabBarLabel: "Friends",
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
       <Tabs.Screen
         name="messages"
         options={{
@@ -105,7 +122,7 @@ const AppLayout = () => {
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "chatbubbles" : "chatbubbles-outline"}
-              size={22}
+              size={24}
               color={color}
             />
           ),
@@ -118,7 +135,7 @@ const AppLayout = () => {
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "heart" : "heart-outline"}
-              size={22}
+              size={24}
               color={color}
             />
           ),
@@ -132,7 +149,7 @@ const AppLayout = () => {
             <Ionicons
               name={focused ? "ticket" : "ticket-outline"}
               color={color}
-              size={22}
+              size={24}
             />
           ),
         }}
@@ -145,7 +162,7 @@ const AppLayout = () => {
             <Ionicons
               name={focused ? "person" : "person-outline"}
               color={color}
-              size={22}
+              size={24}
             />
           ),
         }}

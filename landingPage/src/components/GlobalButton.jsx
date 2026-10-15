@@ -1,9 +1,17 @@
-import React from 'react'
-
-const GlobalButton = ({text, outlined, onClick}) => {
+function Button({
+  icon,
+  text,
+  bgColor = "bg-slate-700",
+  textColor = "text-white",
+}) {
   return (
-    <button onClick={onClick} className={`px-5 py-2 hover:scale-[1.1] transition-all duration-500  rounded-3xl font-primary cursor-pointer ${outlined?"bg-transparent border border-[#110111] text-[#110111] hover:bg-[#110111] hover:text-white":"bg-[#110111] text-white"} `}>{text}</button>
-  )
+    <button
+      type="button"
+      className={`px-5 py-3 cursor-pointer font-main active:scale-95 transition text-sm ${textColor} rounded-full ${bgColor} flex items-center justify-center gap-1`}
+    >
+      {icon}
+      <p >{text}</p>
+    </button>
+  );
 }
-
-export default GlobalButton
+export default Button;

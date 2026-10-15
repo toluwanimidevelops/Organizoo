@@ -1,109 +1,137 @@
-import React, { createContext, useState } from "react";
-import { useEffect } from "react";
-import { useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-const AppProvider = createContext();
-const backendUrl = import.meta.env.VITE_APP_API_URL;
+import { createAuthControllers } from "./controllers/authControllers";
 
-const api = axios.create({
-  baseURL: backendUrl,
-  withCredentials: true,
-});
+const AppContext = createContext(undefined);
 
-let blackMode = {
-  backGround: "#000",
-  primaryColor: "#0B8F76",
-  secondaryColor: "#C0E2C9",
-  textColor: "white",
-  inputContainer: "#f9f9f985",
-};
-const whiteMode = {
-  backGround: "#FFFFFF",
-  primaryColor: "#0B8F76",
-  secondaryColor: "#C0E2C9",
-  textColor: "black",
-  inputContainer: "#F9F9F9",
-};
+const api = axios.create({ baseURL: "http://localhost:5000/api" });
 
-const AppContextProvider = ({ children }) => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const storedMode = localStorage.getItem("mode");
-  const [mode, setMode] = useState(
-    storedMode ? JSON.parse(storedMode) : false // false = light, true = dark
-  );
-  const [color, setColor] = useState(whiteMode);
-  const [userData, setUserData] = useState({});
+// Constant storage key to prevent mismatches
+const TOKEN_KEY = "@token";
 
-  useEffect(() => {
-    localStorage.setItem("mode", JSON.stringify(mode));
-    setColor(mode ? blackMode : whiteMode);
-  }, [mode]);
-
+export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  let getAuthState = async () => {
-    try {
-      const { data } = await api.get("/auth/isAuthenticated");
-      if (data.success) {
-        setIsLogin(true);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true); // Tracks startup state
 
-        getUserData();
-      }
-    } catch (err) {
-      // navigate("/login");
-      console.log(err);
-    }
-  };
-  const getUserData = async () => {
-    try {
-      const { data } = await api.get("/auth/userDetails");
-      data.success ? setUserData(data.userData) : toast.error(data.message);
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to fetch user");
-    }
-  };
-  const logout = async () => {
-    try {
-      const { data } = await api.get("/auth/logout");
-      if (data.success) {
-        toast.success(data.message);
-        setIsLogin(false);
-        setUserData({});
-        navigate("/login");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to fetch user");
-    }
-  };
+  // Error & Loading States
+  const [isLoginEmailError, setIsLoginEmailError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [isLoginPasswordError, setIsLoginPasswordError] = useState(false);
+  const [emailVerificationLoading, setEmailVerificationLoading] =
+    useState(false);
+  const [isSignUpEmailError, setIsSignUpEmailError] = useState(false);
+  const [isSignUpPasswordError, setIsSignUpPasswordError] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [signUpLoading, setSignUpLoading] = useState(false);
+
+  // Dynamically attach the token to all requests if it exists
   useEffect(() => {
-    getAuthState();
-  }, []);
-  const value = {
-    isLogin,
-    color,
-    setColor,
-    mode,
-    setMode,
-    api,
-    logout,
-    setUserData,
-    setIsLogin,
-    getAuthState,
-    axios,
-    isAuthenticated,
-    userData,
-    setIsAuthenticated,
+    const interceptor = api.interceptors.request.use((config) => {
+      if (token) {
+        config.headers.Authorization = token;
+      }
+      return config;
+    });
+
+    return () => api.interceptors.request.eject(interceptor);
+  }, [token]);
+
+  const resetErrors = () => {
+    setIsLoginEmailError(false);
+    setIsLoginPasswordError(false);
+    setIsSignUpEmailError(false);
+    setIsSignUpPasswordError(false);
   };
-  return <AppProvider.Provider value={value}>{children}</AppProvider.Provider>;
+
+  // All the auth functions now live in ./controllers/authControllers.js —
+  // this just wires them up with what they need from this component.
+  const {
+    addLocation,
+    signUp,
+    login,
+    googleAuth,
+    facebookAuth,
+    appleAuth,
+    resendEmailVerificationOtp,
+    VerifyEmail,
+    slugExist,
+    getUserProfile,
+    logout,
+    loadStoredToken,
+  } = createAuthControllers({
+    api,
+    navigate,
+    TOKEN_KEY,
+    setUser,
+    setToken,
+    setAuthLoading,
+    setSignUpLoading,
+    setLoginLoading,
+    setEmailVerificationLoading,
+    setShowSuccess,
+    setIsLoginEmailError,
+    setIsLoginPasswordError,
+    setIsSignUpEmailError,
+    setIsSignUpPasswordError,
+    resetErrors,
+  });
+
+  // Lifecycle initialization
+  useEffect(() => {
+    loadStoredToken();
+  }, [token]);
+
+  return (
+    <AppContext.Provider
+      value={{
+        addLocation,
+        user,
+        getUserProfile,
+        authLoading,
+        signUpLoading,
+        setSignUpLoading,
+        loginLoading,
+        setLoginLoading,
+        VerifyEmail,
+        resendEmailVerificationOtp,
+        setUser,
+        token,
+        slugExist,
+        setToken,
+        signUp,
+        googleAuth,
+        facebookAuth,
+        appleAuth,
+        setShowSuccess,
+        showSuccess,
+        login,
+        emailVerificationLoading,
+        setEmailVerificationLoading,
+        isLoginEmailError,
+        setIsLoginEmailError,
+        isLoginPasswordError,
+        setIsLoginPasswordError,
+        isSignUpEmailError,
+        setIsSignUpEmailError,
+        isSignUpPasswordError,
+        setIsSignUpPasswordError,
+        logout,
+        api,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export const useAppContext = () => {
-  return useContext(AppProvider);
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("useAppContext must be used within an AppProvider");
+  }
+  return context;
 };
-
-export default AppContextProvider;
