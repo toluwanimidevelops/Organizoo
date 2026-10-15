@@ -51,7 +51,7 @@ const Header = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="max-sm:h-[60vh] w-full mx-auto rounded-4xl relative bg-midnight overflow-hidden gap-3 px-3 flex flex-col items-center"
+        className="max-sm:h-[90vh] w-full mx-auto rounded-4xl relative bg-midnight overflow-hidden gap-3 px-3 flex flex-col items-center"
       >
         {/* Title Container */}
         <div className="mt-[20vh] text-white border rounded-full border-white/10 flex gap-3 justify-center items-center px-7  tracking-widest text-xs uppercase font-main py-1 "><div className="size-3 rounded-sm bg-midnight-muted"/><p>Best Event Software </p></div>
@@ -106,7 +106,7 @@ const Header = () => {
               transition: { duration: 0.8, ease: "easeOut" },
             },
           }}
-          className="text-center mb-3 text-md font-main max-w-2xl  text-white z-10"
+          className="text-center mb-3 max-md:text-sm text-md font-main max-w-2xl  text-white z-10"
         >
           Connectify is your all-in-one platform for creating, managing, and
           discovering events — with a social twist
