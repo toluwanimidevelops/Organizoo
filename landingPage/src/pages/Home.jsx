@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Nav";
 import Header from "../components/Home/Header";
 import Features from "../components/Home/Features";
-import HowItWorks from "../components/Home/HowitWorks";
+// import HowItWorks from "../components/Home/HowitWorks";
 
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
     <div className="w-full overflow-y-hidden">
       {/* <Navbar /> */}
       <Header />
-      <HowItWorks />
+      {/* <HowItWorks /> */}
       <Features />
     </div>
   );
