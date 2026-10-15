@@ -51,7 +51,7 @@ const Header = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="max-sm:h-[90vh] w-full mx-auto rounded-4xl relative bg-midnight overflow-hidden gap-3 px-3 flex flex-col items-center"
+        className="max-sm:h-[70vh] w-full mx-auto rounded-4xl relative bg-midnight overflow-hidden gap-3 px-3 flex flex-col items-center"
       >
         {/* Title Container */}
         <div className="mt-[20vh] text-white border rounded-full border-white/10 flex gap-3 justify-center items-center px-7  tracking-widest text-xs uppercase font-main py-1 "><div className="size-3 rounded-sm bg-midnight-muted"/><p>Best Event Software </p></div>
@@ -80,7 +80,7 @@ const Header = () => {
               animate="animate"
               custom={0}
               {...floatVariants(0)}
-              className="w-20 drop-shadow-lg"
+              className="w-20 max-sm:w-10 drop-shadow-lg"
               src="/social.png"
               alt="Social feature"
             />
@@ -89,7 +89,7 @@ const Header = () => {
               animate="animate"
               custom={0.5}
               {...floatVariants(0.5)}
-              className="w-20 drop-shadow-lg"
+              className="w-20 max-sm:w-10 drop-shadow-lg"
               src="/organize.png"
               alt="Organize feature"
             />
