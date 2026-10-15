@@ -7,11 +7,16 @@ export default function Navbar() {
     <div className="fixed z-99 w-full  px-6 pt-9 flex justify-center items-center py-5">
       <nav className=" bg-midnight/50 backdrop-blur-3xl flex items-center shadow-md border-2  max-md:w-full max-w-full w-7xl mx-auto justify-between border-white/10 p-4   min-h-15 rounded-full text-white text-sm">
         {/* Logo */}
-        <a href="/" className="w-50">
+        <a href="/" className="w-50 max-sm:w-10">
           <img
             src="/CONNECTIFY.png"
             alt="Logo"
-            className="w-full h-full  object-contain"
+            className="w-full h-full max-sm:hidden  object-contain"
+          />
+          <img
+            src="/logo/logo.png"
+            alt="Logo"
+            className="w-full h-full sm:hidden  object-contain"
           />
         </a>
 
@@ -30,7 +35,6 @@ export default function Navbar() {
 
         {/* Desktop Buttons */}
         <div className="hidden ml-14 w-50   md:flex justify-end gap-4">
-        
           <button className="bg-white font-secondary  text-black px-6 cursor-pointer py-3 uppercase rounded-full text-xs font-medium hover:bg-slate-100 transition duration-300">
             Get Started
           </button>

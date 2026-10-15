@@ -10,7 +10,7 @@ const Features = () => {
         A visual collection of our most recent works — each piece crafted with
         intention, emotion, and style.
       </p>
-      <div className="grid grid-cols-2 max-md:grid-cols-1 justify-center gap-2">
+      <div className="grid grid-cols-2 max-md:grid-cols-1 max-md:gap-4 justify-center gap-2">
         <div className=" bg-gray-200/20 p-5  flex-1 rounded-xl">
           {" "}
           <div className="h-100 bg-white rounded-xl shadow-xl"></div>
@@ -39,7 +39,7 @@ const Features = () => {
           </div>
         </div>
       </div>
-      <div className="grid gap-2 max-md:grid-cols-1 grid-cols-2">
+      <div className="grid gap-2 max-md:grid-cols-1 max-md:gap-4 grid-cols-2">
         <div className=" bg-gray-200/20 p-5  flex-1 rounded-xl">
           {" "}
           <div className="h-60 bg-white rounded-xl shadow-xl"></div>
@@ -59,7 +59,7 @@ const Features = () => {
           </p>
         </div>
       </div>
-      <div className="grid gap-2 grid-cols-3 max-md:grid-cols-1 max-lg:grid-cols-2">
+      <div className="grid gap-2 grid-cols-3 max-md:grid-cols-1 max-md:gap-4 max-lg:grid-cols-2">
         <div className=" bg-gray-200/20 p-5  flex-1 rounded-xl">
           {" "}
           <div className="h-60 bg-white rounded-xl shadow-xl"></div>

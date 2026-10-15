@@ -43,7 +43,7 @@ const floatVariants = (delay = 0) => ({
 
 const Header = () => {
   return (
-    <div className="w-full p-3">
+    <div className="w-full  p-3">
       {/* <Navbar /> */}
 
       <motion.div
@@ -51,49 +51,56 @@ const Header = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="max-sm:h-[70vh] w-full mx-auto rounded-4xl relative bg-midnight overflow-hidden gap-3 px-3 flex flex-col items-center"
+        className="h-full w-full mx-auto rounded-4xl max-md:rounded-2xl relative bg-midnight overflow-hidden gap-3 px-3 flex flex-col items-center"
       >
         {/* Title Container */}
-        <div className="mt-[20vh] text-white border rounded-full border-white/10 flex gap-3 justify-center items-center px-7  tracking-widest text-xs uppercase font-main py-1 "><div className="size-3 rounded-sm bg-midnight-muted"/><p>Best Event Software </p></div>
-        <div className="relative   flex flex-col items-center text-center">
+        <div className="mt-37.5 max-sm:mt-30 mb-1 text-white border rounded-full border-white/10 flex gap-3 justify-center items-center px-5  tracking-widest text-xs uppercase font-main py-1.5 ">
+          <div className="size-2 relative bg-midnight-muted rounded-full">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-midnight-muted opacity-75 [animation-duration:1.5s]"></span>
+          </div>
+          <p>Best Event Software </p>
+        </div>
+        <div className="   flex flex-col items-center text-center">
           {/* Blurred duplicate for soft feathered aura */}
-          <motion.h1
-            variants={titleVariants}
-            aria-hidden="true"
-            className="absolute inset-0 font-primary opacity-60 max-w-5xl bg-linear-to-r from-[#FFFFFF] to-midnight-muted bg-clip-text py-2 text-center text-[29px] leading-11 font-semibold tracking-[-1.6px] text-transparent md:text-[94px] md:leading-20 blur-[2px] select-none"
-          >
-            Organize. Discover. Connect
-          </motion.h1>
+          <div className="relative inset-0 flex flex-col items-center text-center">
+            <motion.h1
+              variants={titleVariants}
+              aria-hidden="true"
+              className="absolute inset-0 font-primary opacity-60 max-w-5xl bg-linear-to-r from-[#FFFFFF] to-midnight-muted bg-clip-text  text-center text-[29px] leading-11 font-semibold tracking-[-1.6px] text-transparent md:text-[94px] md:leading-20 blur-[2px] select-none"
+            >
+              Organize. Discover. Connect
+            </motion.h1>
 
-          {/* Main sharp text on top */}
-          <motion.h1
-            variants={titleVariants}
-            className="relative font-primary max-w-5xl bg-linear-to-r from-[#FFFFFF] to-midnight-muted bg-clip-text py-2 text-center text-[29px] leading-11 font-semibold tracking-[-1.6px] text-transparent md:text-[94px] md:leading-20"
-          >
-            Organize. Discover. Connect
-          </motion.h1>
+            {/* Main sharp text on top */}
+            <motion.h1
+              variants={titleVariants}
+              className="relative font-primary max-w-5xl bg-linear-to-r from-[#FFFFFF] to-midnight-muted bg-clip-text text-center text-[29px] leading-11 font-semibold tracking-[-1.6px] text-transparent md:text-[94px] md:leading-20"
+            >
+              Organize. Discover. Connect
+            </motion.h1>
+            <div className="flex absolute bottom-4 max-w-full w-4xl justify-between items-center gap-3 mt-5 mx-auto pointer-events-none">
+              <motion.img
+                variants={titleVariants}
+                animate="animate"
+                custom={0}
+                {...floatVariants(0)}
+                className="w-20 max-sm:w-10 drop-shadow-lg"
+                src="/social.png"
+                alt="Social feature"
+              />
+              <motion.img
+                variants={titleVariants}
+                animate="animate"
+                custom={0.5}
+                {...floatVariants(0.5)}
+                className="w-20 max-sm:w-10 drop-shadow-lg"
+                src="/organize.png"
+                alt="Organize feature"
+              />
+            </div>
+          </div>
 
           {/* Floating Badges */}
-          <div className="flex top-20 absolute max-w-full w-4xl justify-between items-center gap-3 mt-5 mx-auto pointer-events-none">
-            <motion.img
-              variants={titleVariants}
-              animate="animate"
-              custom={0}
-              {...floatVariants(0)}
-              className="w-20 max-sm:w-10 drop-shadow-lg"
-              src="/social.png"
-              alt="Social feature"
-            />
-            <motion.img
-              variants={titleVariants}
-              animate="animate"
-              custom={0.5}
-              {...floatVariants(0.5)}
-              className="w-20 max-sm:w-10 drop-shadow-lg"
-              src="/organize.png"
-              alt="Organize feature"
-            />
-          </div>
         </div>
 
         {/* Subtitle / Paragraph */}
@@ -112,8 +119,16 @@ const Header = () => {
           discovering events — with a social twist
         </motion.p>
         <div className="mb-10 flex  gap-3">
-          <Button text="Get Started" bgColor="bg-white"  textColor="text-midnight"/>
-          <Button text="Lorem" bgColor="bg-transparent border border-white"  textColor="text-white"/>
+          <Button
+            text="Get Started"
+            bgColor="bg-white"
+            textColor="text-midnight"
+          />
+          <Button
+            text="Lorem"
+            bgColor="bg-transparent border border-white"
+            textColor="text-white"
+          />
         </div>
 
         {/* iPhone Mockup Container */}
