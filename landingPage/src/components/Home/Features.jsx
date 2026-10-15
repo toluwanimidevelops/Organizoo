@@ -2,7 +2,7 @@ import React from "react";
 
 const Features = () => {
   return (
-    <div className=" w-5xl flex flex-col gap-2 mb-10 mx-auto ">
+    <div className=" w-5xl max-w-full flex flex-col gap-2 mb-10 mx-auto ">
       <h1 className="text-[48px] text-center font-normal tracking-tighter font-main">
         Features
       </h1>
