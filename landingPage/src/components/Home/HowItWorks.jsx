@@ -64,7 +64,7 @@ const HowItWorks = () => {
         intention, emotion, and style.
       </p>
 
-      <div className="flex items-center  gap-0 h-[420px] w-full mt-10 mx-auto">
+      <div className="flex items-center  gap-0 h-105 w-full mt-10 mx-auto">
         {images.map((img, index) => {
           const isActive = activeIdx === index;
 
