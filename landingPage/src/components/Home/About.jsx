@@ -34,7 +34,7 @@ const images = [
   },
 ];
 
-const HowItWorks = () => {
+const About = () => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -117,4 +117,4 @@ const HowItWorks = () => {
   );
 };
 
-export default HowItWorks;
+export default About;
