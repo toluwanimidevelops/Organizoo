@@ -16,7 +16,7 @@ const filter = ({ switchSearch }: { switchSearch: () => void }) => {
           <Ionicons name="chevron-down" color="black" size={21} />
         </TouchableOpacity>
         <View className="flex-row gap-1 items-center">
-          <TouchableOpacity onPress={()=> router.push("/stacks/notifications/notifications")} className="flex-row  items-center">
+          <TouchableOpacity onPress={()=> router.push("/stacks/notifications")} className="flex-row  items-center">
             <Ionicons name="notifications-outline" color="black" size={27} />
             <View className="absolute top-0 right-1 w-2.5 h-2.5 rounded-full bg-red-500" />
           </TouchableOpacity>
