@@ -1,0 +1,415 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Verify your Connectify account</title>
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        supported-color-schemes: light dark;
+      }
+      body,
+      table,
+      td,
+      a {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table,
+      td {
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        -ms-interpolation-mode: bicubic;
+        border: 0;
+        outline: none;
+        text-decoration: none;
+      }
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      a {
+        color: #4f46e5;
+      }
+
+      @media (max-width: 620px) {
+        .container {
+          width: 100% !important;
+        }
+        .px {
+          padding-left: 24px !important;
+          padding-right: 24px !important;
+        }
+        .h1 {
+          font-size: 24px !important;
+          line-height: 32px !important;
+        }
+        .otp {
+          font-size: 30px !important;
+          letter-spacing: 6px !important;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-page"
+    style="margin: 0; padding: 0; background-color: #f3f4fb"
+  >
+    <!-- Preheader (hidden inbox preview text) -->
+    <div
+      style="
+        display: none;
+        font-size: 1px;
+        line-height: 1px;
+        max-height: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        mso-hide: all;
+      "
+    >
+      {{otp_code}} is your Connectify verification code. It expires in
+      {{expiry_minutes}} minutes.
+      &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+    </div>
+
+    <table
+      role="presentation"
+      class="bg-page"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      bgcolor="#f3f4fb"
+      style="background-color: #f3f4fb"
+    >
+      <tr>
+        <td align="center" style="padding: 24px 12px 40px">
+          <table
+            role="presentation"
+            class="container"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="width: 600px; max-width: 600px"
+          >
+            <!-- CARD -->
+            <tr>
+              <td
+                class="bg-card"
+                bgcolor="#ffffff"
+                style="background-color: #ffffff; border-radius: 16px"
+              >
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                >
+                  <!-- Hero: Connectify logo, left-aligned like the text -->
+                  <tr>
+                    <td class="px" align="left" style="padding: 40px 48px 0">
+                      <a
+                        href="https://connectify-app-nu.vercel.app/"
+                        style="text-decoration: none"
+                      >
+                        <img
+                          src="https://connectify-app-nu.vercel.app/logo/logo.png"
+                          width="64"
+                          height="64"
+                          alt="Connectify"
+                          style="
+                            display: block;
+                            width: 64px;
+                            height: 64px;
+                          "
+                        />
+                      </a>
+                    </td>
+                  </tr>
+
+                  <!-- Headline + intro -->
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 24px 48px 0;
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                      "
+                    >
+                      <h1
+                        class="h1 t-head"
+                        style="
+                          margin: 0;
+                          font-size: 28px;
+                          font-family: &quot;DM Sans&quot;, sans-serif;
+                          line-height: 36px;
+                          font-weight: 700;
+                          letter-spacing: -0.4px;
+                          color: #0c0b2b;
+                        "
+                      >
+                        Verify your account
+                      </h1>
+                      <p
+                        class="t-head"
+                        style="
+                          margin: 12px 0 0;
+                          font-size: 16px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          line-height: 24px;
+                          font-weight: 600;
+                          color: #0c0b2b;
+                        "
+                      >
+                        Hi {{first_name}}, you're almost there.
+                      </p>
+                      <p
+                        class="t-body"
+                        style="
+                          margin: 16px 0 0;
+                          font-size: 15px;
+                          line-height: 24px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          color: #525078;
+                        "
+                      >
+                        Enter the code below in Connectify to confirm your email
+                        address and finish setting up your account.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- OTP code box (same indigo tint as the tip box) -->
+                  <tr>
+                    <td class="px" style="padding: 24px 48px 0">
+                      <table
+                        role="presentation"
+                        class="bg-tip"
+                        width="100%"
+                        cellpadding="0"
+                        cellspacing="0"
+                        border="0"
+                        bgcolor="#e0e7ff"
+                        style="
+                          background-color: #e0e7ff;
+                          border: 1px solid #c7d2fe;
+                          border-radius: 8px;
+                        "
+                      >
+                        <tr>
+                          <td align="center" style="padding: 24px 16px">
+                            <span
+                              class="otp t-head"
+                              style="
+                                display: inline-block;
+                                font-family: &quot;Montserrat&quot;, sans-serif;
+                                font-size: 38px;
+                                line-height: 44px;
+                                font-weight: 700;
+                                letter-spacing: 10px;
+                                padding-left: 10px;
+                                color: #0c0b2b;
+                              "
+                              >{{otp_code}}</span
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 10px 48px 0;
+                        font-family: &quot;Lato&quot;, sans-serif;
+                      "
+                    >
+                      <p
+                        class="t-muted"
+                        style="
+                          margin: 0;
+                          font-size: 12px;
+                          line-height: 18px;
+                          text-align: center;
+                          color: #525078;
+                        "
+                      >
+                        This code expires in {{expiry_minutes}} minutes.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- What happens next -->
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 28px 48px 0;
+                        font-family: &quot;DM Sans&quot;, sans-serif;
+                      "
+                    >
+                      <p
+                        class="t-head"
+                        style="
+                          margin: 0 0 8px;
+                          font-size: 16px;
+                          line-height: 24px;
+                          font-weight: 700;
+                          color: #0c0b2b;
+                        "
+                      >
+                        What happens next?
+                      </p>
+                      <p
+                        class="t-body"
+                        style="
+                          margin: 0;
+                          font-size: 15px;
+                          line-height: 24px;
+                          color: #525078;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                        "
+                      >
+                        Once your account is verified, pick your interests and
+                        your feed will start showing events that match them.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Security note (tip box style) -->
+                  <tr>
+                    <td class="px" style="padding: 28px 32px 32px">
+                      <table
+                        role="presentation"
+                        class="bg-tip"
+                        width="100%"
+                        cellpadding="0"
+                        cellspacing="0"
+                        border="0"
+                        bgcolor="#e0e7ff"
+                        style="
+                          background-color: #e0e7ff;
+                          border: 1px solid #c7d2fe;
+                          border-radius: 8px;
+                        "
+                      >
+                        <tr>
+                          <td
+                            style="
+                              padding: 16px 20px;
+                              font-family: &quot;Lato&quot;, sans-serif;
+                              font-size: 14px;
+                              line-height: 22px;
+                              color: #0c0b2b;
+                            "
+                          >
+                            <span class="t-head" style="color: #0c0b2b"
+                              ><strong>Didn't create an account?</strong> You
+                              can safely ignore this email. Never share this
+                              code with anyone &mdash; Connectify will never ask
+                              you for it.
+                              <a
+                                class="link"
+                                href="{{help_url}}"
+                                style="
+                                  color: #4f46e5;
+                                  text-decoration: underline;
+                                "
+                                >Get help</a
+                              >.</span
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td
+                align="center"
+                class="px"
+                style="
+                  padding: 24px 24px 0;
+                  font-family:
+                    &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                "
+              >
+                <p
+                  class="t-muted"
+                  style="
+                    margin: 0;
+                    font-size: 13px;
+                    line-height: 20px;
+                    font-weight: 600;
+                    font-family: &quot;Lato&quot;, sans-serif;
+                    color: #525078;
+                  "
+                >
+                  Organize. Discover. Connect.
+                </p>
+                <p
+                  class="t-muted"
+                  style="
+                    margin: 8px 0 0;
+                    font-family: &quot;Lato&quot;, sans-serif;
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #525078;
+                  "
+                >
+                  Need help? Visit our
+                  <a
+                    class="link"
+                    href="{{help_url}}"
+                    style="color: #4f46e5; text-decoration: underline"
+                    >help centre</a
+                  >.
+                </p>
+                <p
+                  class="t-muted"
+                  style="
+                    margin: 8px 0 0;
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #525078;
+                    font-family: &quot;Lato&quot;, sans-serif;
+                  "
+                >
+                  &copy; {{year}} Connectify &middot; {{company_address}}
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

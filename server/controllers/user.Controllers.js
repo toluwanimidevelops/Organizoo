@@ -3,7 +3,10 @@ import Event from "../models/Events.schema.js"; // <-- ADD THIS LINE to register
 import bcrypt from "bcryptjs";
 import transporter from "../configs/nodemailer.js";
 import jwt from "jsonwebtoken";
-
+import {
+  renderOtpEmail,
+  renderWelcomeEmail,
+} from "../configs/emailTemplates.js";
 const otpGenerator = () => Math.floor(1000 + Math.random() * 9000);
 
 const saltRounds = 10;
@@ -40,10 +43,7 @@ export const SignUp = async (req, res) => {
         to: email,
         subject: "Verify Your Account - OTP Code",
         text: `${firstName}, your verification code is: ${otp}`,
-        html: `
-          <h3>Welcome ${firstName}!</h3>
-          <p>Your verification code is: <b>${otp}</b></p>
-        `,
+        html: renderOtpEmail({ firstName, otp }),
       });
     } catch (mailErr) {
       console.error("OTP email failed:", mailErr);
@@ -78,8 +78,9 @@ export const SignUp = async (req, res) => {
       .sendMail({
         from: process.env.SENDER_EMAIL,
         to: email,
-        subject: "Welcome to the App",
-        text: `Welcome ${firstName}, thank you for choosing App`,
+        subject: "Welcome to Connectify",
+        text: `Welcome ${firstName}, thank you for choosing Connectify`,
+        html: renderWelcomeEmail({ firstName }),
       })
       .catch((e) => console.error("Welcome email failed:", e));
 
@@ -155,10 +156,7 @@ export const Login = async (req, res) => {
         to: email,
         subject: "Verify Your Account - OTP Code",
         text: `${user.firstName}, your verification code is: ${otp}`,
-        html: `
-          <h3>Hello ${user.firstName}!</h3>
-          <p>Your verification code is: <b>${otp}</b></p>
-        `,
+        html: renderOtpEmail({ firstName: user.firstName, otp }),
       };
 
       await transporter.sendMail(mailOption);
@@ -260,10 +258,7 @@ export const ResendEmailOtp = async (req, res) => {
       to: user.email,
       subject: "Verify Your Account - OTP Code",
       text: `${user.firstName}, your verification code is: ${otp}`,
-      html: `
-        <h3>Welcome ${user.firstName}!</h3>
-        <p>Your verification code is: <b>${otp}</b></p>
-      `,
+      html: renderOtpEmail({ firstName: user.firstName, otp }),
     };
     await transporter.sendMail(mailOption);
     await user.save();

@@ -1,0 +1,632 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Welcome to Connectify</title>
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        supported-color-schemes: light dark;
+      }
+      body,
+      table,
+      td,
+      a {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table,
+      td {
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        -ms-interpolation-mode: bicubic;
+        border: 0;
+        outline: none;
+        text-decoration: none;
+      }
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      a {
+        color: #4f46e5;
+      }
+
+      @media (max-width: 620px) {
+        .container {
+          width: 100% !important;
+        }
+        .px {
+          padding-left: 24px !important;
+          padding-right: 24px !important;
+        }
+        .h1 {
+          font-size: 24px !important;
+          line-height: 32px !important;
+        }
+        .hero-img {
+          width: 220px !important;
+          height: auto !important;
+        }
+        .btn a {
+          display: block !important;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-page"
+    style="margin: 0; padding: 0; background-color: #f3f4fb"
+  >
+    <!-- Preheader (hidden inbox preview text) -->
+    <div
+      style="
+        display: none;
+        font-size: 1px;
+        line-height: 1px;
+        max-height: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        mso-hide: all;
+      "
+    >
+      {{preheader}}
+      &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+    </div>
+
+    <table
+      role="presentation"
+      class="bg-page"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      bgcolor="#f3f4fb"
+      style="background-color: #f3f4fb"
+    >
+      <tr>
+        <td align="center" style="padding: 24px 12px 40px">
+          <table
+            role="presentation"
+            class="container"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="width: 600px; max-width: 600px"
+          >
+            <!-- HEADER: logo + login -->
+            <tr>
+              <td class="px" style="padding: 8px 8px 20px">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                >
+                  <tr>
+                    <td
+                      align="left"
+                      valign="middle"
+                      style="
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                      "
+                    >
+                      <a
+                        href="https://connectify-app-nu.vercel.app/"
+                        style="text-decoration: none"
+                      >
+                        <img
+                          src="https://connectify-app-nu.vercel.app/logo/logo.png"
+                          width="36"
+                          height="36"
+                          alt=""
+                          style="
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: 36px;
+                            height: 36px;
+                          "
+                        />
+                        <span
+                          class="t-head"
+                          style="
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-left: 8px;
+                            font-size: 22px;
+                            font-weight: 700;
+                            font-family: &quot;Montserrat&quot;, sans-serif;
+                            letter-spacing: -0.3px;
+                            color: #0c0b2b;
+                          "
+                          >Connectify</span
+                        >
+                      </a>
+                    </td>
+                    <td
+                      align="right"
+                      valign="middle"
+                      style="
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                        font-size: 13px;
+                      "
+                    >
+                      <a
+                        class="link"
+                        href="{{login_url}}"
+                        style="
+                          color: #4f46e5;
+                          text-decoration: underline;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                        "
+                        >Log in</a
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- CARD -->
+            <tr>
+              <td
+                class="bg-card"
+                bgcolor="#ffffff"
+                style="background-color: #ffffff; border-radius: 16px"
+              >
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  border="0"
+                >
+                  <!-- Animated celebration (GIF: the only animation format email clients reliably play) -->
+                  <tr>
+                    <td
+                      align="center"
+                      style="
+                        padding: 36px 32px 0;
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 200px;
+                          width: 200px;
+                          background-color: #a5b4fc;
+                          border-radius: 100%;
+                          position: absolute;
+
+                          margin: 0 auto;
+                        "
+                      ></div>
+                      <img
+                        class="hero-img"
+                        src="https://connectify-app-nu.vercel.app/welcome.gif"
+                        width="260"
+                        height="217"
+                        alt="A party popper bursting with colourful confetti"
+                        style="
+                          display: block;
+                          width: 260px;
+                          height: auto;
+                          margin: 0 auto;
+                          position: relative;
+                          z-index: 10;
+                        "
+                      />
+                    </td>
+                  </tr>
+
+                  <!-- EDIT: headline + intro -->
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 24px 48px 0;
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                      "
+                    >
+                      <h1
+                        class="h1 t-head"
+                        style="
+                          margin: 0;
+                          font-size: 28px;
+                          font-family: &quot;DM Sans&quot;, sans-serif;
+                          line-height: 36px;
+                          font-weight: 700;
+                          letter-spacing: -0.4px;
+                          color: #0c0b2b;
+                        "
+                      >
+                        You're in. Welcome to Connectify!
+                      </h1>
+                      <p
+                        class="t-head"
+                        style="
+                          margin: 12px 0 0;
+                          font-size: 16px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          line-height: 24px;
+                          font-weight: 600;
+                          color: #0c0b2b;
+                        "
+                      >
+                        Hi {{first_name}}, your account is ready.
+                      </p>
+                      <p
+                        class="t-body"
+                        style="
+                          margin: 16px 0 0;
+                          font-size: 15px;
+                          line-height: 24px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          color: #525078;
+                        "
+                      >
+                        Connectify is where you organize, discover and connect
+                        with events &mdash; from small meetups to big nights
+                        out. Find what's happening near you, add it to your
+                        calendar, and bring your people along.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- EDIT: quick links -->
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 24px 48px 0;
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                      "
+                    >
+                      <p
+                        class="t-head"
+                        style="
+                          margin: 0 0 8px;
+                          font-family: &quot;DM Sans&quot;, sans-serif;
+                          font-size: 16px;
+                          line-height: 24px;
+                          font-weight: 700;
+                          color: #0c0b2b;
+                        "
+                      >
+                        Where to start
+                      </p>
+                      <p
+                        class="t-body"
+                        style="
+                          margin: 0;
+                          font-size: 15px;
+                          line-height: 26px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          color: #525078;
+                        "
+                      >
+                        Discover events near you:<br />
+                        <a
+                          class="link"
+                          href="{{explore_url}}"
+                          style="
+                            color: #4f46e5;
+                            font-family: &quot;Montserrat&quot;, sans-serif;
+                            text-decoration: underline;
+                          "
+                          >{{explore_url}}</a
+                        >
+                      </p>
+                      <p
+                        class="t-body"
+                        style="
+                          margin: 14px 0 0;
+                          font-size: 15px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          line-height: 26px;
+                          color: #525078;
+                        "
+                      >
+                        Host your own event and sell tickets:<br />
+                        <a
+                          class="link"
+                          href="{{create_event_url}}"
+                          style="
+                            color: #4f46e5;
+                            font-family: &quot;Montserrat&quot;, sans-serif;
+                            text-decoration: underline;
+                          "
+                          >{{create_event_url}}</a
+                        >
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- EDIT: what happens next -->
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 28px 48px 0;
+                        font-family: &quot;DM Sans&quot;, sans-serif;
+                      "
+                    >
+                      <p
+                        class="t-head"
+                        style="
+                          margin: 0 0 8px;
+                          font-size: 16px;
+                          line-height: 24px;
+                          font-weight: 700;
+                          color: #0c0b2b;
+                        "
+                      >
+                        What happens next?
+                      </p>
+                      <p
+                        class="t-body"
+                        style="
+                          margin: 0;
+                          font-size: 15px;
+                          line-height: 24px;
+                          color: #525078;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                        "
+                      >
+                        Pick your interests and your feed will start showing
+                        events that match them. We'll also send a few short tips
+                        to help you get the most out of Connectify.
+                      </p>
+                    </td>
+                  </tr>
+
+                  <!-- Bulletproof button (VML for Outlook) -->
+                  <tr>
+                    <td
+                      class="px btn"
+                      align="left"
+                      style="
+                        padding: 24px 48px 0;
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                      "
+                    >
+                      <!--[if mso]>
+                        <v:roundrect
+                          xmlns:v="urn:schemas-microsoft-com:vml"
+                          href="{{cta_url}}"
+                          style="
+                            height: 44px;
+                            v-text-anchor: middle;
+                            width: 200px;
+                          "
+                          arcsize="18%"
+                          stroke="f"
+                          fillcolor="#4f46e5"
+                        >
+                          <w:anchorlock />
+                          <center
+                            style="
+                              color: #ffffff;
+                              font-family: Arial, sans-serif;
+                              font-size: 15px;
+                              font-weight: bold;
+                            "
+                          >
+                            {{cta_label}}
+                          </center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <!--[if !mso]><!-->
+                      <a
+                        href="{{cta_url}}"
+                        style="
+                          display: inline-block;
+                          background-color: #0c0b2b;
+                          color: #ffffff;
+                          font-size: 15px;
+                          font-weight: 600;
+                          line-height: 44px;
+                          height: 44px;
+                          font-family: &quot;Lato&quot;, sans-serif;
+                          padding: 0 28px;
+                          border-radius: 8px;
+                          text-decoration: none;
+                          text-align: center;
+                          mso-hide: all;
+                        "
+                        >{{cta_label}}</a
+                      >
+                      <!--<![endif]-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 8px 48px 0;
+                        font-family: &quot;Lato&quot;, sans-serif;
+                      "
+                    >
+                      <p
+                        class="t-muted"
+                        style="
+                          margin: 0;
+                          font-size: 12px;
+                          line-height: 18px;
+                          color: #525078;
+                        "
+                      >
+                        Free to join. Create, discover and RSVP in minutes.
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="px"
+                      style="
+                        padding: 16px 48px 0;
+                        font-family:
+                          &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                      "
+                    >
+                      <a
+                        class="link"
+                        href="{{login_url}}/forgot-password"
+                        style="
+                          font-size: 14px;
+                          color: #4f46e5;
+                          font-family: &quot;Montserrat&quot;, sans-serif;
+                          text-decoration: underline;
+                        "
+                        >Forgot your password?</a
+                      >
+                    </td>
+                  </tr>
+
+                  <!-- EDIT: tip / announcement box -->
+                  <tr>
+                    <td class="px" style="padding: 28px 32px 32px">
+                      <table
+                        role="presentation"
+                        class="bg-tip"
+                        width="100%"
+                        cellpadding="0"
+                        cellspacing="0"
+                        border="0"
+                        bgcolor="#e0e7ff"
+                        style="
+                          background-color: #e0e7ff;
+                          border: 1px solid #c7d2fe;
+                          border-radius: 8px;
+                        "
+                      >
+                        <tr>
+                          <td
+                            style="
+                              padding: 16px 20px;
+                              font-family: &quot;Lato&quot;, sans-serif;
+                              font-size: 14px;
+                              line-height: 22px;
+                              color: #0c0b2b;
+                            "
+                          >
+                            <span class="t-head" style="color: #0c0b2b"
+                              ><strong>New:</strong> Add any event to Google
+                              Calendar, or join it on Google Meet, in one tap.
+                              <a
+                                class="link"
+                                href="{{help_url}}"
+                                style="
+                                  color: #4f46e5;
+                                  text-decoration: underline;
+                                "
+                                >See how it works</a
+                              >.</span
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td
+                align="center"
+                class="px"
+                style="
+                  padding: 24px 24px 0;
+                  font-family:
+                    &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+                "
+              >
+                <p
+                  class="t-muted"
+                  style="
+                    margin: 0;
+                    font-size: 13px;
+                    line-height: 20px;
+                    font-weight: 600;
+                    font-family: &quot;Lato&quot;, sans-serif;
+                    color: #525078;
+                  "
+                >
+                  Organize. Discover. Connect.
+                </p>
+                <p
+                  class="t-muted"
+                  style="
+                    margin: 8px 0 0;
+                    font-family: &quot;Lato&quot;, sans-serif;
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #525078;
+                  "
+                >
+                  Need help? Visit our
+                  <a
+                    class="link"
+                    href="{{help_url}}"
+                    style="color: #4f46e5; text-decoration: underline"
+                    >help centre</a
+                  >.
+                  <a
+                    class="link"
+                    href="{{unsubscribe_url}}"
+                    style="color: #4f46e5; text-decoration: underline"
+                    >Unsubscribe</a
+                  >
+                </p>
+                <p
+                  class="t-muted"
+                  style="
+                    margin: 8px 0 0;
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #525078;
+                    font-family: &quot;Lato&quot;, sans-serif;
+                  "
+                >
+                  &copy; {{year}} Connectify &middot; {{company_address}}
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
