@@ -71,7 +71,8 @@ const AppLayout = () => {
           paddingTop: 10,
         },
         tabBarLabelStyle: {
-          fontWeight: "500",
+          fontSize: 12,
+          fontFamily: "Lato_400Regular",
         },
         headerShown: false,
       }}

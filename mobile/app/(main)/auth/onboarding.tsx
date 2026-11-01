@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
   View,
   Text,
@@ -7,16 +7,17 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
-  Switch,
+ 
   Animated,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Input from "@/components/auth/Input";
 import GlobalButton from "@/components/global/GlobalButton";
-import { useAppContext, User } from "@/context/AppContext";
+import { useAppContext } from "@/context/AppContext";
 import RNPickerSelect from "react-native-picker-select";
 import { router } from "expo-router";
+import { User } from "@/types/user";
 
 // Custom Mock Components to simulate the graphic items in the image layout
 const DesignIcon = () => <Ionicons name="brush" size={32} color="#100a30" />;
@@ -62,7 +63,7 @@ const AnimatedInterestCard = ({
       friction: 7,
       tension: 60,
     }).start();
-  }, [isSelected]);
+  }, [isSelected, scaleAnim]);
 
   return (
     <View className="w-[30%] mb-6 items-center">
@@ -83,7 +84,7 @@ const AnimatedInterestCard = ({
           {item.renderIcon()}
         </TouchableOpacity>
       </Animated.View>
-      <Text className="text-sm text-gray-800 font-medium text-center mt-2">
+      <Text className="text-sm font-primary text-gray-800 font-medium text-center mt-2">
         {item.label}
       </Text>
     </View>
@@ -93,8 +94,8 @@ const AnimatedInterestCard = ({
 const Onboarding = () => {
   const [step, setStep] = useState(1);
   const totalSteps = 4;
-  const [slugError, setSlugError] = useState<Boolean>(false);
-  
+  const [slugError, setSlugError] = useState<boolean>(false);
+
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -114,7 +115,7 @@ const Onboarding = () => {
 
   const [onboardingLoading, setOnboardingLoading] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-  const { user , slugExist, setUser , api} = useAppContext();
+  const { user, slugExist, setUser, api } = useAppContext();
   const [data, setData] = useState<User | null>(null);
 
   useEffect(() => {
@@ -129,8 +130,13 @@ const Onboarding = () => {
     };
 
     checkSlug();
-  }, [data?.slug]);
-
+  }, [data?.slug, slugExist]);
+  const checkBio = useMemo(() => {
+    if (data?.bio.length > 200) {
+      return true;
+    }
+    return false;
+  }, [data?.bio]);
   const handleNext = async () => {
     if (step < totalSteps) {
       setStep((prev) => prev + 1);
@@ -180,16 +186,21 @@ const Onboarding = () => {
       return { ...prev, [parentField]: updatedParent };
     });
   };
-
+  const sanitizeSlug = (text: string) =>
+    text
+      .replace(/^@+/, "") // strip any leading @
+      .replace(/\s/g, ""); // strip all whitespace // only letters, numbers, dots, underscores
   const handleSubmit = async () => {
     try {
       setOnboardingLoading(true);
       const completePayload = { ...data, interests: selectedInterests };
-      const { data: data1 } = await api.post("/auth/updateProfile", completePayload);
+      const { data: data1 } = await api.post(
+        "/auth/updateProfile",
+        completePayload,
+      );
       if (data1.success) {
-        setUser(data1.user as User)
+        setUser(data1.user as User);
         router.push("/(main)/(tabs)/(home)/home");
-
       }
     } catch (error) {
       console.error("Failed completing onboarding validation setup:", error);
@@ -204,6 +215,8 @@ const Onboarding = () => {
         !data?.firstName?.trim() ||
         !data?.lastName?.trim() ||
         !data?.slug?.trim() ||
+        slugError ||
+        checkBio ||
         !data?.bio?.trim() ||
         !data?.gender?.trim()
       );
@@ -231,14 +244,14 @@ const Onboarding = () => {
             <View className="w-10" />
           )}
 
-          <Text className="text-gray-400 font-normal">
+          <Text className="text-gray-400 font-secondary">
             Step {step} of {totalSteps}
           </Text>
         </View>
 
         {/* Progress Bar */}
         {step !== 4 && (
-          <View className="h-1.5 w-full bg-gray-200 rounded-full mb-8 overflow-hidden">
+          <View className="h-1.5 w-full bg-gray-200 rounded-full mb-7 overflow-hidden">
             <View
               className="h-full bg-[#100a30]"
               style={{ width: `${(step / totalSteps) * 100}%` }}
@@ -254,8 +267,8 @@ const Onboarding = () => {
           {/* STEP 1: ACCOUNT TYPE & BIOLOGY */}
           {step === 1 && (
             <View className="gap-y-4">
-              <View className="mb-2">
-                <Text className="text-xl text-gray-900">
+              <View className="mb-1">
+                <Text className="text-2xl font-primary-bold text-gray-900">
                   Tell us about yourself
                 </Text>
               </View>
@@ -263,34 +276,40 @@ const Onboarding = () => {
                 label="First Name"
                 placeholder="Enter your first name"
                 value={data?.firstName || ""}
-                setValue={(text) => handleUpdateField("firstName", text)}
+                setValue={(text: string) =>
+                  handleUpdateField("firstName", text)
+                }
               />
               <Input
                 label="Last Name"
                 placeholder="Enter your last name"
                 value={data?.lastName || ""}
-                setValue={(text) => handleUpdateField("lastName", text)}
+                setValue={(text: string) => handleUpdateField("lastName", text)}
               />
               <Input
                 label="Slug"
                 error={slugError}
                 errorMessage="A user with this slug already exist"
-                placeholder="@user10002"
+                placeholder="user10002"
                 value={data?.slug || ""}
-                setValue={(text) => handleUpdateField("slug", text)}
+                setValue={(text: string) =>
+                  handleUpdateField("slug", sanitizeSlug(text))
+                }
               />
               <Input
                 label="Bio"
                 placeholder="Tell us a little about yourself..."
                 value={data?.bio || ""}
+                error={checkBio}
                 multiline={true}
-                setValue={(text) => handleUpdateField("bio", text)}
+                setValue={(text: string) => handleUpdateField("bio", text)}
+                downText={`${data?.bio.length}/200`}
               />
               <View className="flex-col gap-1">
-                <Text className="text-gray-700 font-medium text-sm">
+                <Text className="text-gray-700 font-main text-lg">
                   Gender <Text className="text-red-500">*</Text>
                 </Text>
-                <View className="relative w-full bg-white border border-gray-200 rounded-2xl h-[48px] justify-center">
+                <View className="relative w-full bg-transparent border border-gray-200 rounded-md h-[50px] justify-center">
                   <RNPickerSelect
                     placeholder={{
                       label: "Select your gender",
@@ -322,7 +341,7 @@ const Onboarding = () => {
           {/* STEP 2: COMMUNICATIONS */}
           {step === 2 && (
             <View className="gap-y-4">
-              <Text className="text-xl text-gray-900 mb-2">
+              <Text className="text-2xl mb-1 font-primary-bold text-gray-900">
                 Account Communications
               </Text>
               <Input
@@ -330,71 +349,22 @@ const Onboarding = () => {
                 placeholder="+234 000 000 0000"
                 keyboardType="phone-pad"
                 value={data?.phone || ""}
-                setValue={(text) => handleUpdateField("phone", text)}
+                setValue={(text: string) => handleUpdateField("phone", text)}
               />
-              <View className="mt-4 p-4 bg-white rounded-2xl border border-gray-100 gap-y-4">
-                <Text className="text-lg text-gray-800 mb-1">
-                  Notification Preferences
-                </Text>
-                <View className="flex-row justify-between items-center">
-                  <View>
-                    <Text className="text-gray-700 font-normal">
-                      Push Notifications
-                    </Text>
-                    <Text className="text-xs font-light text-gray-400">
-                      Receive alerts on updates instantly
-                    </Text>
-                  </View>
-                  <Switch
-                    value={data?.preferences?.notifications?.push ?? true}
-                    onValueChange={(val) =>
-                      handleDeepUpdateField(
-                        "preferences",
-                        "notifications",
-                        val,
-                        "push",
-                      )
-                    }
-                    trackColor={{ true: "#100a30", false: "#e5e7eb" }}
-                  />
-                </View>
-                <View className="flex-row justify-between items-center border-t border-gray-100 pt-3">
-                  <View>
-                    <Text className="text-gray-700 font-normal">
-                      Email Subscriptions
-                    </Text>
-                    <Text className="text-xs font-light text-gray-400">
-                      Get news announcements via inbox
-                    </Text>
-                  </View>
-                  <Switch
-                    value={data?.preferences?.notifications?.email ?? true}
-                    onValueChange={(val) =>
-                      handleDeepUpdateField(
-                        "preferences",
-                        "notifications",
-                        val,
-                        "email",
-                      )
-                    }
-                    trackColor={{ true: "#100a30", false: "#e5e7eb" }}
-                  />
-                </View>
-              </View>
             </View>
           )}
 
           {/* STEP 3: REGIONAL LOCATION */}
           {step === 3 && (
             <View className="gap-y-4">
-              <Text className="text-xl font-bold text-gray-900 mb-2">
+              <Text className="text-2xl font-primary-bold mb-1 text-gray-900">
                 Where are you located?
               </Text>
               <Input
                 label="Country"
                 placeholder="e.g. Nigeria"
                 value={data?.location?.country || ""}
-                setValue={(text) =>
+                setValue={(text: string) =>
                   handleDeepUpdateField("location", "country", text)
                 }
               />
@@ -402,7 +372,7 @@ const Onboarding = () => {
                 label="City"
                 placeholder="e.g. Lagos"
                 value={data?.location?.city || ""}
-                setValue={(text) =>
+                setValue={(text: string) =>
                   handleDeepUpdateField("location", "city", text)
                 }
               />
@@ -411,7 +381,7 @@ const Onboarding = () => {
                 placeholder="e.g. 12 Broad Street"
                 important={false}
                 value={data?.location?.street || ""}
-                setValue={(text) =>
+                setValue={(text: string) =>
                   handleDeepUpdateField("location", "street", text)
                 }
               />
@@ -422,7 +392,7 @@ const Onboarding = () => {
                     placeholder="100001"
                     important={false}
                     value={data?.location?.postalCode || ""}
-                    setValue={(text) =>
+                    setValue={(text: string) =>
                       handleDeepUpdateField("location", "postalCode", text)
                     }
                   />
@@ -433,7 +403,7 @@ const Onboarding = () => {
                     placeholder="Lagos State"
                     important={false}
                     value={data?.location?.region || ""}
-                    setValue={(text) =>
+                    setValue={(text: string) =>
                       handleDeepUpdateField("location", "region", text)
                     }
                   />
@@ -445,8 +415,8 @@ const Onboarding = () => {
           {/* STEP 4: INTERESTS WITH TECH & SPRINGS */}
           {step === 4 && (
             <View className="items-center flex-1">
-              <Text className="text-2xl text-gray-900 mt-4 mb-8 text-center">
-                Select Your 3 Interests
+              <Text className="text-2xl  mt-4 mb-8 text-center  font-primary-bold text-gray-900">
+                Select At least 3 Interests
               </Text>
 
               <View className="flex-row flex-wrap justify-between w-full px-1">
@@ -471,7 +441,7 @@ const Onboarding = () => {
               loading={onboardingLoading}
               onPress={handleNext}
               lessBorder
-              isDisabled={isStepDisabled()}
+              isDisabled={isStepDisabled() as boolean}
             />
           </View>
         </ScrollView>
@@ -484,7 +454,7 @@ const interestStyles = StyleSheet.create({
   cardContainer: {
     width: "100%",
     aspectRatio: 1,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "#ffffff",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },

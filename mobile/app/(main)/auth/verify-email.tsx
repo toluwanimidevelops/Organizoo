@@ -121,14 +121,14 @@ const VerifyEmail = () => {
             </View>
 
             {/* Mail Icon Branding */}
-            <View className="justify-center items-center mt-8 h-20 w-20 rounded-full bg-[#100a30]">
-              <Ionicons name="mail-outline" size={40} color="white" />
+            <View className="justify-center items-center mt-8 size-24 rounded-full bg-[#100a30]">
+              <Ionicons name="mail-open-outline" size={50} color="white" />
             </View>
 
-            <Text className="text-center my-4 text-3xl font-medium text-[#100a30]">
+            <Text className="text-center mt-4 mb-2 text-3xl font-primary-bold text-[#100a30]">
               Please Verify Your Email
             </Text>
-            <Text className="text-[#a8a8a8] leading-6 mb-3 text-center font-light px-6">
+            <Text className="text-[#a8a8a8] leading-6 mb-3 text-center font-primary px-6">
               Enter the 4 digit code sent by email
             </Text>
 
@@ -145,7 +145,7 @@ const VerifyEmail = () => {
                     onKeyPress={(e) => handleKeyPress(e, index)}
                     maxLength={1}
                     keyboardType="number-pad"
-                    className="border flex-1 h-16 bg-white border-gray-300 rounded-xl text-2xl font-semibold text-[#100a30] text-center "
+                    className="border flex-1 h-16  justify-center items-center bg-white border-gray-300 rounded-md text-2xl font-primary-bold text-[#100a30] text-center "
                     style={{
                       borderColor: code[index] ? "#100a30" : "#d1d5db",
                       borderWidth: 1,
@@ -168,17 +168,17 @@ const VerifyEmail = () => {
             </View>
             {/* 3. Resend OTP Section Container */}
             <View className="flex-row justify-center mt-10 items-center mb-10 w-full px-4">
-              <Text className="text-gray-500 font-light">
+              <Text className="text-gray-500 font-primary">
                 Didn't receive the code?{" "}
               </Text>
               {canResend ? (
                 <TouchableOpacity onPress={handleResendCode}>
-                  <Text className="text-[#a8a8a8]  text-center font-light ">
+                  <Text className="text-[#a8a8a8]  text-center font-secondary ">
                     Resend Code
                   </Text>
                 </TouchableOpacity>
               ) : (
-                <Text className="text-gray-400 font-light">
+                <Text className="text-gray-400 font-primary">
                   Resend in{" "}
                   <Text className="font-medium text-[#100a30]">
                     {countdown}{" "}

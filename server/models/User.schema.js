@@ -22,12 +22,12 @@ let userSchema = new mongoose.Schema(
     profilePicture: {
       type: String,
       default:
-        "https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8=",
+        "https://connectify-app-nu.vercel.app/profile.png",
     },
     coverPhoto: {
       type: String,
       default:
-        "https://images.unsplash.com/photo-1575318080244-dd217d9db1e2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://connectify-app-nu.vercel.app/coverphoto.png",
     },
     bio: { type: String, default: "", maxlength: 500 },
     dateOfBirth: { type: Date },

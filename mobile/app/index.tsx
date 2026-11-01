@@ -28,11 +28,7 @@ const App = () => {
           resizeMode="contain"
         />
 
-        <ActivityIndicator
-          size="large"
-          color="#0000ff"
-          style={{ marginTop: 40, position: "absolute", bottom: 70 }}
-        />
+        
       </View>
     );
   }

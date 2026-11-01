@@ -4,77 +4,23 @@ import {
   useEffect,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
-import axios, { AxiosError } from "axios";
+import { AxiosError, AxiosInstance, create } from "axios";
 import { Vibration } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export interface IGeoCoordinates {
-  type: "point";
-  coordinates: [number, number];
-}
+import { AuthCredentials, LocationData, User } from "@/types/user";
 
-export interface IUserLocation {
-  city?: string;
-  country?: string;
-  district?: string;
-  isoCountryCode?: string;
-  name?: string;
-  postalCode?: string;
-  region?: string;
-  street?: string;
-  streetNumber?: string;
-  timezone?: string;
-  coordinates?: IGeoCoordinates;
-}
 
-export interface INotificationPreferences {
-  push: boolean;
-  email: boolean;
-  sms: boolean;
-}
 
-export interface IPrivacyPreferences {
-  profilePublic: boolean;
-  showAttendance: boolean;
-  allowMessages: boolean;
-}
 
-export interface IUserPreferences {
-  language: string;
-  theme: "light" | "dark";
-  notifications: INotificationPreferences;
-  privacy: IPrivacyPreferences;
-}
+
+
 // Updated User Interface matching your schema definition
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  profilePicture: string;
-  coverPhoto: string;
-  bio: string;
-  gender: "male" | "female" | "other";
-  userType: "attendee" | "organizer" | "admin";
-  location?: IUserLocation;
-  preferences?: IUserPreferences;
-  phone?: string;
-  slug?: string;
-  interest: string[];
-  emailVerified: boolean;
-  phoneVerified: boolean;
-  totalEventsAttended?: number;
-  averageRatings?: number;
-  totalReviews?: number;
-}
 
-interface AuthCredentials {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  password: string;
-}
+
+
 
 interface AppContextType {
   user: User | null;
@@ -106,23 +52,11 @@ interface AppContextType {
   setIsSignUpEmailError: (val: boolean) => void;
   isSignUpPasswordError: boolean;
   setIsSignUpPasswordError: (val: boolean) => void;
-  logout: () => Promise<void>; // Added helper
+  logout: () => Promise<void>;
+  api: AxiosInstance;
 }
 
-interface LocationData {
-  city: string;
-  country: string;
-  district: string;
-  isoCountryCode: string;
-  name: string;
-  postalCode: string;
-  region: string;
-  street: string;
-  streetNumber: string;
-  timezone: string;
-  longitude: number;
-  latitude: number;
-}
+
 
 interface ApiErrorResponse {
   type: "validation" | "email" | "password";
@@ -131,7 +65,7 @@ interface ApiErrorResponse {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const api = axios.create({ baseURL: "http://172.20.10.2:5000/api" });
+const api: AxiosInstance = create({ baseURL: "http://172.20.10.2:5000/api" });
 
 // Constant storage key to prevent mismatches
 const TOKEN_KEY = "@token";
@@ -321,23 +255,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
   };
-  // Get User Profile
-  const getUserProfile = async (currentToken: string) => {
-    try {
-      const { data } = await api.get("/auth", {
-        headers: { Authorization: currentToken },
-      });
-      setUser(data.user);
-    } catch (error) {
-      console.log(
-        "Error fetching user profile (session expired). Clearing credentials.",
-      );
-      await logout(); // Session expired or invalid token, clean up state
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
   // Logout Helper
   const logout = async () => {
     try {
@@ -349,27 +266,43 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       console.log("Logout cleanup error:", error);
     }
   };
-
-  // Load Authentication Token from Local Storage
-  const loadStoredToken = async () => {
+  // Get User Profile
+  const getUserProfile = useCallback(async (currentToken: string) => {
     try {
-      const storedToken = await AsyncStorage.getItem(TOKEN_KEY);
-      if (storedToken) {
-        setToken(storedToken); // Stored directly as a pure string
-        await getUserProfile(storedToken);
-      } else {
-        setAuthLoading(false); // No token found, loading finished
-      }
+      const { data } = await api.get("/auth", {
+        headers: { Authorization: currentToken },
+      });
+      setUser(data.user);
     } catch (error) {
-      console.log("Error loading token from storage:", error);
+      console.log(
+        error ||
+          "Error fetching user profile (session expired). Clearing credentials.",
+      );
+      await logout(); // Session expired or invalid token, clean up state
+    } finally {
       setAuthLoading(false);
     }
-  };
+  }, []);
 
   // Lifecycle initialization
   useEffect(() => {
+    // Load Authentication Token from Local Storage
+    const loadStoredToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem(TOKEN_KEY);
+        if (storedToken) {
+          setToken(storedToken); // Stored directly as a pure string
+          await getUserProfile(storedToken);
+        } else {
+          setAuthLoading(false); // No token found, loading finished
+        }
+      } catch (error) {
+        console.log("Error loading token from storage:", error);
+        setAuthLoading(false);
+      }
+    };
     loadStoredToken();
-  }, [token]);
+  }, [getUserProfile]);
 
   return (
     <AppContext.Provider

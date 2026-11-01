@@ -419,7 +419,7 @@ export const CompleteProfile = async (req, res) => {
       {
         firstName,
         lastName,
-        slug,
+        slug: `@${slug}`,
         phone,
         bio,
         gender,

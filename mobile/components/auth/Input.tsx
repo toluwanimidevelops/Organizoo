@@ -6,7 +6,7 @@ interface InputProps {
   label: string;
   placeholder: string;
   value: string;
-  error?: boolean;
+  error?: boolean | undefined;
   errorMessage?: string;
   setValue: any;
   keyboardType?: any;
@@ -16,6 +16,7 @@ interface InputProps {
   icon?: React.ReactNode;
   important?: boolean;
   multiline?: boolean;
+  downText?: string;
 }
 
 const Input = ({
@@ -29,12 +30,13 @@ const Input = ({
   setValue,
   errorMessage,
   isPassword,
+  downText,
   important = true,
   multiline = false,
 }: InputProps) => {
   return (
     <View className="flex-col gap-1">
-      <Text className="text-gray-700 font-medium text-sm">
+      <Text className="text-gray-700 font-main text-lg">
         {label} {important && <Text className="text-red-500">*</Text>}
       </Text>
 
@@ -44,23 +46,24 @@ const Input = ({
         Once the text exceeds 140px, the input will become internally scrollable.
       */}
       <View
-        className={`flex-row bg-gray-50 border ${
+        className={`flex-row bg-transparent border ${
           error ? "border-red-500" : "border-gray-200"
-        } rounded-2xl px-4 ${
+        } rounded-md px-4 ${
           multiline
             ? "min-h-[100px] max-h-[140px] py-3 items-start"
-            : "h-[48px] items-center"
+            : "h-[50px] items-center"
         }`}
       >
         <TextInput
           className={`flex-1 ${
             multiline ? "w-full" : "h-full"
-          } ${error ? "text-red-500" : "text-gray-900"} font-extralight`}
+          } ${error ? "text-red-500" : "text-gray-900"} font-primary placeholder:leading-none`}
           placeholder={placeholder}
           placeholderTextColor="#9CA3AF"
           keyboardType={keyboardType || "default"}
           secureTextEntry={isPassword && !showPassword}
           autoCapitalize="none"
+          
           autoCorrect={false}
           value={value}
           onChangeText={setValue}
@@ -80,6 +83,13 @@ const Input = ({
           </TouchableOpacity>
         )}
       </View>
+      {downText && (
+        <Text
+          className={`font-primary text-right ${error ? "text-red-500" : "text-gray-500"} `}
+        >
+          {downText}
+        </Text>
+      )}
       {error && errorMessage && (
         <Text className="text-red-500 text-sm ">{errorMessage}</Text>
       )}

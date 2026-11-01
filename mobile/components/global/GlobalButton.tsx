@@ -10,7 +10,7 @@ const GlobalButton = ({
 }: {
   text: string;
   lessBorder?: boolean;
-    isDisabled?: boolean;
+    isDisabled?: boolean ;
   loading?: boolean;
   onPress: () => void;
 }) => {
@@ -19,7 +19,7 @@ const GlobalButton = ({
       // 1. Pass the native disabled prop here
       disabled={isDisabled}
       // 2. Change background color dynamically (e.g., bg-gray-400 or lower opacity when disabled)
-      className={`py-4 ${lessBorder ? "rounded-lg" : "rounded-full"} justify-center w-full items-center text-center text-white 
+      className={`py-4 rounded-lg justify-center w-full items-center text-center font-primary text-white 
         ${isDisabled ? "bg-gray-400 opacity-60" : "bg-[#100a30]"}`}
       onPress={onPress}
     >{

@@ -157,7 +157,7 @@ const EmailSuccessModal = ({
             useNativeDriver: true,
           }),
         ]),
-        { iterations: 2 }
+        { iterations: 2 },
       ).start();
     }
   }, [visible]);
@@ -168,12 +168,23 @@ const EmailSuccessModal = ({
   });
 
   return (
-    <Modal visible={visible} transparent animationType="fade" statusBarTranslucent>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      statusBarTranslucent
+    >
       <View className="flex-1 bg-black/50  justify-center items-center px-6">
         {/* Confetti layer */}
         <View
           pointerEvents="none"
-          style={{ position: "absolute", top: 0, left: 0, right: 0, height: 320 }}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 320,
+          }}
         >
           {CONFETTI_PIECES.map((piece) => (
             <ConfettiPiece key={piece.id} {...piece} />
@@ -188,17 +199,16 @@ const EmailSuccessModal = ({
           {/* Celebration badge */}
           <Animated.View
             style={{ transform: [{ scale: badgeScale }] }}
-            className="h-24 w-24 rounded-full bg-[#100a30] justify-center items-center mb-5"
+            className="h-24 w-24 rounded-full bg-green-500 justify-center items-center mb-5"
           >
             <Ionicons name="checkmark" size={48} color="white" />
-            
           </Animated.View>
 
           {/* Floating emoji accent */}
           <Animated.Text
             style={{
               position: "absolute",
-              top: 4,
+              top: 10,
               right: 26,
               fontSize: 34,
               transform: [{ rotate: emojiSpin }],
@@ -207,10 +217,10 @@ const EmailSuccessModal = ({
             🎉
           </Animated.Text>
 
-          <Text className="text-center text-3xl font-medium text-[#100a30] mb-3">
+          <Text className="text-center text-3xl font-primary-bold text-[#100a30] mb-3">
             {title}
           </Text>
-          <Text className="text-[#a8a8a8] leading-6 mb-8 text-center font-light px-2">
+          <Text className="text-[#a8a8a8] leading-6 font-primary mb-8 text-center font-light px-2">
             {subtitle}
           </Text>
 

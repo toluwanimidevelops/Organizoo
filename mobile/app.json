@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "connectify",
-    "slug": "connectify",
+    "name": "Connectify",
+
+    "slug": "Connectify",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo/iosAppIconPng.png",
     "scheme": "connectify",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "icon": "./assets/logo/iosAppIconPng.png",
       "supportsTablet": true,
@@ -27,7 +27,7 @@
         "backgroundColor": "#100a30",
         "foregroundImage": "./assets/logo/androidAppIcon.png"
       },
-      "edgeToEdgeEnabled": true,
+      
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
@@ -53,7 +53,7 @@
           "image": "./assets/logo/androidAppIcon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#100a30",
+          "backgroundColor": "#100a30s",
           "dark": {
             "backgroundColor": "#100a30"
           }
