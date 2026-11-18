@@ -132,7 +132,7 @@ const Onboarding = () => {
     checkSlug();
   }, [data?.slug, slugExist]);
   const checkBio = useMemo(() => {
-    if (data?.bio.length > 200) {
+    if (data?.bio.length > 150) {
       return true;
     }
     return false;
@@ -303,7 +303,7 @@ const Onboarding = () => {
                 error={checkBio}
                 multiline={true}
                 setValue={(text: string) => handleUpdateField("bio", text)}
-                downText={`${data?.bio.length}/200`}
+                downText={`${data?.bio.length}/150`}
               />
               <View className="flex-col gap-1">
                 <Text className="text-gray-700 font-main text-lg">

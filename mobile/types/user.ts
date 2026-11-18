@@ -46,7 +46,7 @@ export interface IPrivacyPreferences {
 
 export interface IUserPreferences {
   language: string;
-  theme: "light" | "dark";
+  theme: "light" | "dark" | "system";
   notifications: INotificationPreferences;
   privacy: IPrivacyPreferences;
 }
@@ -65,6 +65,8 @@ export interface User {
   phone?: string;
   slug?: string;
   interest: string[];
+  followers: string[];
+  following: string[];
   emailVerified: boolean;
   phoneVerified: boolean;
   totalEventsAttended?: number;

@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import "./style.css";
 import { AppProvider } from "@/context/AppContext";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   useFonts,
   DMSans_400Regular,
@@ -16,6 +17,7 @@ import {
   Montserrat_600SemiBold,
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,7 +42,11 @@ export default function RootLayout() {
 
   return (
     <AppProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <Stack  screenOptions={{ headerShown: false }} />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </AppProvider>
   );
 }

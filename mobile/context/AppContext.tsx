@@ -5,22 +5,16 @@ import {
   useState,
   ReactNode,
   useCallback,
+  useMemo,
 } from "react";
+import { useColorScheme } from "nativewind";
 import { AxiosError, AxiosInstance, create } from "axios";
 import { Vibration } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthCredentials, LocationData, User } from "@/types/user";
 
-
-
-
-
-
 // Updated User Interface matching your schema definition
-
-
-
 
 interface AppContextType {
   user: User | null;
@@ -56,16 +50,14 @@ interface AppContextType {
   api: AxiosInstance;
 }
 
-
-
-interface ApiErrorResponse {
+export interface ApiErrorResponse {
   type: "validation" | "email" | "password";
   message: string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const api: AxiosInstance = create({ baseURL: "http://172.20.10.2:5000/api" });
+const api: AxiosInstance = create({ baseURL: "http://192.168.18.12:5000/api" });
 
 // Constant storage key to prevent mismatches
 const TOKEN_KEY = "@token";
@@ -74,7 +66,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(true); // Tracks startup state
-
+  const { setColorScheme, colorScheme } = useColorScheme();
   // Error & Loading States
   const [isLoginEmailError, setIsLoginEmailError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -114,7 +106,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       console.log("Location Save Error:", err.message);
     }
   };
-
+  useEffect(() => {
+    if (user?.preferences?.theme) {
+      setColorScheme(user.preferences.theme);
+    }
+  }, [user?.preferences?.theme, setColorScheme]);
   // Sign Up Action
   const signUp = async ({
     firstName,
@@ -164,6 +160,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setLoginLoading(true);
     try {
       const { data } = await api.post("/auth/login", { email, password });
+      await getUserProfile(data.token); // Fetch user profile immediately after login
       setToken(data.token);
       await AsyncStorage.setItem(TOKEN_KEY, data.token); // Standardized storage helper
 
@@ -195,6 +192,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setLoginLoading(false);
     }
   };
+  
 
   // Resend email verification Otp
   const resendEmailVerificationOtp = async () => {
@@ -266,6 +264,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       console.log("Logout cleanup error:", error);
     }
   };
+  //
   // Get User Profile
   const getUserProfile = useCallback(async (currentToken: string) => {
     try {

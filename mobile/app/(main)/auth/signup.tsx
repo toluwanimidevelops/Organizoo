@@ -55,18 +55,18 @@ const Signup = () => {
     }
   };
   return (
-    <SafeAreaView className="flex-1 bg-[#f4f7fd] p-5">
+    <SafeAreaView className="flex-1 dark:bg-black bg-[#f4f7fd] p-5">
       <KeyboardAvoidingView
         behavior="padding"
-        style={{ flex: 1, backgroundColor: "#f4f7fd" }}
+        style={{ flex: 1,}}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <Text className="text-3xl font-main-bold">Create your account</Text>
-          <Text className="text-[#a8a8a8] font-primary leading-6 mt-1 font-light">
+          <Text className="text-3xl dark:text-white font-main-bold ">Create your account</Text>
+          <Text className="text-[#a8a8a8] dark:text-[#a8a8a8] font-primary leading-6 mt-1 font-light">
             Fill in your details to get started.
           </Text>
           <View className="mt-10 gap-5 flex-1 justify-between">
@@ -176,7 +176,7 @@ const Signup = () => {
                 Already have an account?{" "}
               </Text>
               <TouchableOpacity onPress={() => router.push("/auth/login")}>
-                <Text className="font-secondary text-[#100a30]">Login</Text>
+                <Text className="font-secondary dark:text-white text-[#100a30]">Login</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -1,62 +1,56 @@
-import { useEffect, useRef, useState } from "react";
-import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
-import Swiper from "react-native-swiper";
-import Welcome1 from "@/components/welcome/welcome001";
-import Welcome2 from "@/components/welcome/welcome002";
-import Welcome3 from "@/components/welcome/welcome003";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, Image } from "react-native";
+import { Ionicons, Fontisto } from "@expo/vector-icons";
+import GoogleLog from "@/assets/images/fci.png";
+import welcomeBg from "@/assets/background/bg.png";
 import GlobalButton from "@/components/global/GlobalButton";
 import { router } from "expo-router";
-const Welcome = () => {
-  const onboardingSwiperData = [<Welcome1 />, <Welcome2 />, <Welcome3 />];
-  const swipeRef = useRef<Swiper>(null);
-  const [swiperIndex, setSwiperIndex] = useState<number>(0);
-  useEffect(() => {
-    if (swiperIndex >= onboardingSwiperData.length - 1) return;
 
-    const interval = setInterval(() => {
-      swipeRef.current?.scrollBy(1);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [swiperIndex, onboardingSwiperData.length]);
-  const isLastSlide = swiperIndex === onboardingSwiperData.length - 1;
+const welcome = () => {
   return (
-    <View className="h-screen bg-transparent relative flex-1">
-      <Swiper
-        ref={swipeRef}
-        onIndexChanged={(index) => setSwiperIndex(index)}
-        loop={false}
-        activeDot={
-          <View className={`w-7 h-2 m-0.5 bg-[#100a30]  rounded-full`} />
-        }
-        dot={<View className="w-2 h-2 m-0.5 rounded-full bg-[#a8a8a8]" />}
-      >
-        {onboardingSwiperData.map((t, index) => (
-          <View key={index}>{t}</View>
-        ))}
-      </Swiper>
-      <View className=" w-full gap-3 px-5 bg-white ">
+    <View className="flex-1 justify-center dark:bg-black bg-[#F8FAFC] items-end flex-row relative">
+      <Image
+        source={welcomeBg}
+      
+        className="w-full h-full object-cover top-0 right-0 left-0 object-top absolute"
+      />
+      <View className="min-h-20 gap-5 mb-10">
+        <Text className="font-primary max-w-sm  mx-auto  text-4xl text-center  dark:text-white  ">
+          Organize. Discover. Connect
+        </Text>
         <GlobalButton
-          text={isLastSlide ? "Get Started" : "Continue"}
-          onPress={() => {
-            isLastSlide
-              ? router.push("/(main)/auth/login")
-              : swipeRef.current?.scrollBy(1);
-          }}
+          onPress={() => router.push("/auth/signup")}
+          borderFull
+          text="Sign up with Email"
+          icon={<Ionicons name="mail-sharp" size={18} color="white" />}
         />
-        <View className="text-center flex gap-0.5 pb-10 pt-5 font-light flex-row justify-center  items-center">
-          <Text className="font-light">Don't have an account ?</Text>
-          <TouchableOpacity
-            onPress={() => router.push("/(main)/auth/signup")}
-            className="flex justify-center items-center"
-          >
-            <Text className="text-[#100a30] font-normal">Register</Text>
-          </TouchableOpacity>
-        </View>
+        <GlobalButton
+          borderFull
+          // onPress={()=>()}
+          icon={<Image className="size-6 object-cover" source={GoogleLog} />}
+          text="Sign up with Google"
+          background="bg-white"
+          textColor="text-black"
+        />
+        <GlobalButton
+          // onPress={()=>()}
+          borderFull
+          text="Sign up with Apple"
+          icon={<Fontisto name="apple" size={18} color="white" />}
+          background="bg-black "
+        />
+        <Text className="text-gray-500 max-w-xs mx-auto mt-3 font-primary text-center">
+          By signing up, you agree to our{" "}
+          <Text className="text-midnight-muted font-primary-bold">
+            Terms of condition
+          </Text>{" "}
+          and{" "}
+          <Text className="text-midnight-muted font-primary-bold">
+            Privacy Policy
+          </Text>
+        </Text>
       </View>
     </View>
   );
 };
 
-export default Welcome;
+export default welcome;

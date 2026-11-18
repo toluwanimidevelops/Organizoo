@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Connectify",
-
+    
     "slug": "Connectify",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,7 +27,7 @@
         "backgroundColor": "#100a30",
         "foregroundImage": "./assets/logo/androidAppIcon.png"
       },
-      
+
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",

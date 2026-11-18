@@ -2,12 +2,20 @@ import mongoose from "mongoose";
 let userSchema = new mongoose.Schema(
   {
     // Authentication
-    email: { type: String, required: true, unique: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    },
     password: {
       type: String,
       required: function () {
         return !this.googleId && !this.facebookId && !this.appleId;
       },
+      minLength: 6,
     },
     googleId: { type: String, unique: true, sparse: true },
     facebookId: { type: String, unique: true, sparse: true },
@@ -21,15 +29,13 @@ let userSchema = new mongoose.Schema(
     lastName: { type: String, required: true, trim: true },
     profilePicture: {
       type: String,
-      default:
-        "https://connectify-app-nu.vercel.app/profile.png",
+      default: "https://connectify-app-nu.vercel.app/profile.png",
     },
     coverPhoto: {
       type: String,
-      default:
-        "https://connectify-app-nu.vercel.app/coverphoto.png",
+      default: "https://connectify-app-nu.vercel.app/coverphoto.png",
     },
-    bio: { type: String, default: "", maxlength: 500 },
+    bio: { type: String, default: "", maxlength: 150 },
     dateOfBirth: { type: Date },
     gender: {
       type: String,
@@ -69,7 +75,11 @@ let userSchema = new mongoose.Schema(
     // Settings
     preferences: {
       language: { type: String, default: "en" },
-      theme: { type: String, enum: ["light", "dark"], default: "light" },
+      theme: {
+        type: String,
+        enum: ["light", "dark", "system"],
+        default: "system",
+      },
       notifications: {
         push: { type: Boolean, default: true },
         email: { type: Boolean, default: true },

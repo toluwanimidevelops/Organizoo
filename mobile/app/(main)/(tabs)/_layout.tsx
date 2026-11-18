@@ -3,7 +3,10 @@ import { Tabs } from "expo-router";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
+import { useColorScheme } from "nativewind";
 const AppLayout = () => {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const { addLocation } = useAppContext();
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null,
@@ -64,10 +67,12 @@ const AppLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#100a30",
+        tabBarActiveTintColor: isDark ? "#fff" : "#100a30",
+        tabBarInactiveTintColor: isDark ? "#888" : "#aaa",
         tabBarStyle: {
           width: "100%",
           height: 100,
+          backgroundColor: isDark ? "#111111" : "#fff",
           paddingTop: 10,
         },
         tabBarLabelStyle: {

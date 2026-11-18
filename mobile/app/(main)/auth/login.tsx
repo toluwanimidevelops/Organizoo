@@ -5,13 +5,14 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
-import React, {  useState } from "react";
+import  { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/components/auth/Input";
 import GlobalButton from "@/components/global/GlobalButton";
 import { FontAwesome } from "@expo/vector-icons";
 import { useAppContext } from "@/context/AppContext";
 import { router } from "expo-router";
+import { useColorScheme } from "nativewind";
 // import * as WebBrowser from "expo-web-browser";
 // import * as Google from "expo-auth-session/providers/google";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,9 +27,6 @@ const Login = () => {
   //   androidClientId:
   //     "228677396218-5j14728jnoq2i2qek157n6dkou2i56s9.apps.googleusercontent.com",
   // });
-  
-
- 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,19 +69,26 @@ const Login = () => {
       login({ email, password });
     }
   };
+  const { colorScheme } = useColorScheme();
+  let isDarkMode = colorScheme === "dark";
   return (
-    <SafeAreaView className="flex-1 bg-[#f4f7fd] p-5">
+    <SafeAreaView className="flex-1 dark:bg-black bg-[#f4f7fd] p-5">
       <KeyboardAvoidingView
         behavior="padding"
-        style={{ flex: 1, backgroundColor: "#f4f7fd" }}
+        style={{ flex: 1,}}
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{
+            flexGrow: 1,
+           
+          }}
         >
-          <Text className="text-3xl font-main-bold ">Welcome Back!</Text>
-          <Text className="text-[#a8a8a8] font-primary leading-6 mt-1 font-light">
+          <Text className="text-3xl dark:text-white font-main-bold ">
+            Welcome Back!
+          </Text>
+          <Text className="text-[#a8a8a8] dark:text-[#a8a8a8] font-primary leading-6 mt-1 font-light">
             Glad to have you here again, Lets get started!
           </Text>
           <View className="mt-10 gap-5 flex-1 justify-between">
@@ -120,8 +125,11 @@ const Login = () => {
                 setShowPassword={setShowPassword}
                 setValue={handlePasswordChange}
               />
-              <TouchableOpacity className="self-end ">
-                <Text className=" leading-6 mt-1 font-secondary text-[#100a30]">
+              <TouchableOpacity
+                onPress={() => router.push("/auth/forget-password")}
+                className="self-end "
+              >
+                <Text className=" leading-6 mt-1 dark:text-white font-secondary text-[#100a30]">
                   Forgot password?
                 </Text>
               </TouchableOpacity>
@@ -173,10 +181,10 @@ const Login = () => {
             {/* Sign Up Link */}
             <View className="flex-row align-bottom justify-center mt-auto">
               <Text className="text-[#a8a8a8]  font-primary">
-                Don`&apos;`t have an account?{" "}
+                Don&apos;t have an account?{" "}
               </Text>
               <TouchableOpacity onPress={() => router.push("/auth/signup")}>
-                <Text className="font-secondary text-[#100a30]">Sign Up</Text>
+                <Text className="font-secondary dark:text-white text-[#100a30]">Sign Up</Text>
               </TouchableOpacity>
             </View>
           </View>

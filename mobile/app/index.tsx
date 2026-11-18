@@ -1,4 +1,4 @@
-import { ActivityIndicator, View, Image } from "react-native";
+import {  View, Image } from "react-native";
 import { Redirect } from "expo-router";
 import Logo from "@/assets/logo/connectifybl.png";
 import { useAppContext } from "@/context/AppContext";
@@ -9,15 +9,7 @@ const App = () => {
   // Track the actual dynamic loading state
   if (authLoading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          backgroundColor: "#ffffff", // Optional: ensures a clean backdrop
-        }}
-      >
+      <View className="flex-1 justify-center items-center flex-col dark:bg-black bg-white">
         {/* 
           FIX: Removed conflicting 'w-full' and Tailwind object-contain.
           Using explicit layout dimensions + native resizeMode prop.
@@ -27,8 +19,6 @@ const App = () => {
           style={{ width: 300, height: 150 }}
           resizeMode="contain"
         />
-
-        
       </View>
     );
   }

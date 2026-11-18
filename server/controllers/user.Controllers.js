@@ -5,6 +5,7 @@ import transporter from "../configs/nodemailer.js";
 import jwt from "jsonwebtoken";
 import {
   renderOtpEmail,
+  renderResetPasswordEmail,
   renderWelcomeEmail,
 } from "../configs/emailTemplates.js";
 const otpGenerator = () => Math.floor(1000 + Math.random() * 9000);
@@ -49,7 +50,7 @@ export const SignUp = async (req, res) => {
       console.error("OTP email failed:", mailErr);
       return res.status(502).json({
         success: false,
-        type: "email",
+        type: "smtp",
         message: "Could not send verification email. Please try again.",
       });
     }
@@ -293,18 +294,33 @@ export const ResendPasswordOtp = async (req, res) => {
     // Generate OTP
     const otp = otpGenerator();
     user.resetPasswordVerificationOtp = otp;
-    resetPasswordVerificationOtpExpiresAt = Date.now() + 10 * 60 * 1000;
-    const mailOption = {
-      from: process.env.SENDER_EMAIL,
-      to: user.email,
-      subject: "Password Reset - OTP Code",
-      text: `${user.firstName}, your reset otp code is: ${otp}`,
-      html: `
-        <h3>Welcome ${user.firstName}!</h3>
-        <p>Your reset otp code is: <b>${otp}</b></p>
-      `,
-    };
-    await transporter.sendMail(mailOption);
+    user.resetPasswordVerificationOtpExpiresAt = Date.now() + 10 * 60 * 1000;
+    let info;
+    try {
+      info = await transporter.sendMail({
+        from: process.env.SENDER_EMAIL,
+        to: email,
+        subject: "Reset Your Password - OTP Code",
+        text: `${user.firstName}, your verification code is: ${otp}`,
+        html: renderResetPasswordEmail({ firstName: user.firstName, otp }),
+      });
+    } catch (mailErr) {
+      console.error("OTP email failed:", mailErr);
+      return res.status(502).json({
+        success: false,
+        type: "smtp",
+        message: "Could not send verification email. Please try again.",
+      });
+    }
+
+    // Some transports resolve even when the address was rejected
+    if (!info.accepted || info.accepted.length === 0) {
+      return res.status(400).json({
+        success: false,
+        type: "email",
+        message: "Could not deliver to this email address.",
+      });
+    }
     await user.save();
     res.status(200).json({
       success: true,
@@ -339,7 +355,7 @@ export const CheckResetPasswordOtp = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Otp doesn't match" });
     }
-    if (Date.now() > resetPasswordVerificationOtpExpiresAt) {
+    if (Date.now() > user.resetPasswordVerificationOtpExpiresAt) {
       return res.status(400).json({ success: false, message: "Otp Expires" });
     }
     res.status(200).json({ success: true, message: "Otp Verified" });
@@ -358,9 +374,9 @@ export const ResetPassword = async (req, res) => {
     if (!email || !otp || !newPassword) {
       return res
         .status(400)
-        .json({ success: false, message: "Email is required" });
+        .json({ success: false, message: "All fields are required" });
     }
-    const user = await User.findOne(email);
+    const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
@@ -371,7 +387,7 @@ export const ResetPassword = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Otp doesn't match" });
     }
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     user.password = hashedPassword;
     await user.save();
     res
@@ -419,17 +435,12 @@ export const CompleteProfile = async (req, res) => {
       {
         firstName,
         lastName,
-        slug: `@${slug}`,
+        slug: slug.startsWith("@") ? slug : `@${slug}`,
         phone,
         bio,
         gender,
         dateOfBirth,
-        // preferences: {
-        //   language: settings.language,
-        //   theme: setting.theme,
-        //   notifications: settings.notifications,
-        //   privacy: settings.privacy,
-        // },
+
         location: {
           city,
           country,
@@ -597,9 +608,43 @@ export const addLocation = async (req, res) => {
 export const checkIfSlugisAvailable = async (req, res) => {
   try {
     const { slug } = req.body;
+    const { userId } = req;
     const findSlug = await User.findOne({ slug: slug });
-    if (findSlug) return res.status(400).json({ success: false }); // taken
+    if (findSlug && findSlug._id.toString() !== userId) {
+      return res.status(400).json({ success: false }); // taken
+    }
     return res.status(200).json({ success: true }); // available
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateTheme = async (req, res) => {
+  try {
+    const { userId } = req;
+    const { theme } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User Unauthorized",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { "preferences.theme": theme },
+      { new: true },
+    );
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({

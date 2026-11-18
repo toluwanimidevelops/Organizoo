@@ -36,7 +36,7 @@ const Input = ({
 }: InputProps) => {
   return (
     <View className="flex-col gap-1">
-      <Text className="text-gray-700 font-main text-lg">
+      <Text className="text-gray-700 font-main dark:text-white text-lg">
         {label} {important && <Text className="text-red-500">*</Text>}
       </Text>
 
@@ -57,7 +57,7 @@ const Input = ({
         <TextInput
           className={`flex-1 ${
             multiline ? "w-full" : "h-full"
-          } ${error ? "text-red-500" : "text-gray-900"} font-primary placeholder:leading-none`}
+          } ${error ? "text-red-500" : "text-gray-900 dark:text-white"} font-primary placeholder:leading-none`}
           placeholder={placeholder}
           placeholderTextColor="#9CA3AF"
           keyboardType={keyboardType || "default"}

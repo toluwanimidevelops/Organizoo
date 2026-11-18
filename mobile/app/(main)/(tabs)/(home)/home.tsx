@@ -3,12 +3,15 @@ import CompleteProfileModal from "@/components/home/OnboardingModal";
 import Search from "@/components/home/search";
 import { useAppContext } from "@/context/AppContext";
 import { router } from "expo-router";
+import { useColorScheme } from "nativewind";
 import React, { useState } from "react";
 import { ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 const Home = () => {
   const [isFilter, setIsFilter] = useState<boolean>(true);
   const { user } = useAppContext();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const switchSearch = () => setIsFilter((prev) => !prev);
   // The modal shows automatically if the user object exists but doesn't have a slug
   const showProfileAlert = user !== null && !user?.slug;
@@ -22,7 +25,7 @@ const Home = () => {
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: "#F8FAFC",
+          backgroundColor: isDark?"#111111":"#F8FAFC",
         }}
       >
         {/* Filters & Search  */}

@@ -10,7 +10,7 @@ const load = (name) =>
 // Read once when the server starts
 const otpTemplate = load("otp.html");
 const welcomeTemplate = load("welcome.html");
-
+const resetPasswordTemplate = load("resetPasswordOtp.html");
 const escapeHtml = (str = "") =>
   String(str).replace(
     /[&<>"']/g,
@@ -34,6 +34,14 @@ const common = () => ({
 
 export const renderOtpEmail = ({ firstName, otp, expiryMinutes = 10 }) =>
   fill(otpTemplate, {
+    ...common(),
+    first_name: escapeHtml(firstName),
+    otp_code: otp,
+    expiry_minutes: expiryMinutes,
+  });
+
+export const renderResetPasswordEmail = ({ firstName, otp, expiryMinutes = 10 }) =>
+  fill(resetPasswordTemplate, {
     ...common(),
     first_name: escapeHtml(firstName),
     otp_code: otp,
